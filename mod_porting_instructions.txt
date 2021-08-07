@@ -1,0 +1,22 @@
+To port a mod to Q2DOS the following changes must occur:
+
+* q_shared.c and q_shared.h need to be merged with the ones in /game.
+  There as some string safe functions that are used throughout the engine
+  as well as some DJGPP specific stuff.  It's needed!
+
+* game.h needs dprintf changed to:
+  void (*dprintf) (unsigned long developerFlags, char *fmt, ...);
+
+* ALL gi.dprintfs need to be changed to this format:
+  gi.dprintf (DEVELOPER_MSG_GAME, "%s", ...)
+
+  This is so you can use the developer flags to filter game dll
+  specific messages.
+
+* The DXE has to be built using dxe3gen with -U, and must export
+  only _GetGameAPI(), i.e.:  dxe3gen -U -E _GetGameAPI ....
+  Run your mod (like "q2 +set game yourmod") and see if it errors
+  out with a message like "unresolved symbols in dxe": if it does,
+  see the generated DXE.LOG file for details, and report it to me.
+
+Good luck!
