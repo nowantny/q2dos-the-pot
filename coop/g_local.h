@@ -376,7 +376,7 @@ typedef enum
 	zaero_coop
 } gametype_t;
 
-#define MAX_GAMEMODES		128
+#define MAX_GAMEMODES		256
 #define GAMEMODE_ERROR		-2
 #define GAMEMODE_AVAILABLE	-1
 
