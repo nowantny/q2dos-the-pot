@@ -1,11 +1,11 @@
 #!/bin/sh
 
-. ./cross_defs.mingw
+. ../cross_defs.mingw
 
 if test "$1" = "strip"; then
-	echo $TARGET-strip q2.exe
-	$TARGET-strip q2.exe
+	echo $TARGET-strip gamex86.dll
+	$TARGET-strip gamex86.dll
 	exit 0
 fi
 
-exec make CC=$TARGET-gcc RC=$TARGET-windres -f Makefile.mingw $*
+exec make CC=$TARGET-gcc -f Makefile.mingw $*
