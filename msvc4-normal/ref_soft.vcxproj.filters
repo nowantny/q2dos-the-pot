@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{35b73f40-411b-4d58-b034-f1e1dfa1c50d}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat;for;f90</Extensions>
+    </Filter>
+    <Filter Include="Source Files\ASM">
+      <UniqueIdentifier>{ebde3f3e-f9f3-4ebe-b610-a4ee2fd519be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{c1fc4aa6-5e47-446e-ba3f-b2b53ccfa8ce}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;fi;fd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{a00ef9b6-e4f0-40ac-b3c1-ac92c1c980d3}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;cnt;rtf;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\GAME\q_shared.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\WIN32\q_shwin.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\REF_SOFT\r_aclip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\REF_SOFT\r_alias.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\REF_SOFT\r_bsp.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\REF_SOFT\r_draw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\REF_SOFT\r_edge.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\REF_SOFT\r_image.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\REF_SOFT\r_light.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\REF_SOFT\r_main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\REF_SOFT\r_misc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\REF_SOFT\r_model.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\REF_SOFT\r_part.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\REF_SOFT\r_poly.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\REF_SOFT\r_polyse.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\REF_SOFT\r_rast.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\REF_SOFT\r_scan.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\REF_SOFT\r_sprite.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\REF_SOFT\r_surf.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\WIN32\rw_ddraw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\WIN32\rw_dib.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\WIN32\rw_imp.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\REF_SOFT\ref_soft.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="..\ref_soft\block16.inc">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\ref_soft\block8.inc">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\ref_soft\d_if.inc">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\ref_soft\qasm.inc">
+      <Filter>Header Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\ref_soft\r_aclipa.asm">
+      <Filter>Source Files\ASM</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\ref_soft\r_aliasa.asm">
+      <Filter>Source Files\ASM</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\ref_soft\r_draw16.asm">
+      <Filter>Source Files\ASM</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\ref_soft\r_drawa.asm">
+      <Filter>Source Files\ASM</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\ref_soft\r_edgea.asm">
+      <Filter>Source Files\ASM</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\ref_soft\r_misca.asm">
+      <Filter>Source Files\ASM</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\ref_soft\r_parta.asm">
+      <Filter>Source Files\ASM</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\ref_soft\r_polysa.asm">
+      <Filter>Source Files\ASM</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\ref_soft\r_scana.asm">
+      <Filter>Source Files\ASM</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\ref_soft\r_spr8.asm">
+      <Filter>Source Files\ASM</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\ref_soft\r_surf8.asm">
+      <Filter>Source Files\ASM</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\ref_soft\r_varsa.asm">
+      <Filter>Source Files\ASM</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

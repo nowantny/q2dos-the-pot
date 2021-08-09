@@ -1,0 +1,467 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{974a9f4f-5295-4d7f-b6a2-c5b15e54481e}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat;for;f90</Extensions>
+    </Filter>
+    <Filter Include="Source Files\ai">
+      <UniqueIdentifier>{86eff6ec-8a6b-496e-861e-54f707c676e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gbr">
+      <UniqueIdentifier>{2186133d-cd03-4607-a143-a096dc9dd0e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\grm">
+      <UniqueIdentifier>{30164fcd-0d5e-4fff-81dd-bc8dee22f649}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ita">
+      <UniqueIdentifier>{1613d63f-21de-41c2-acd6-935d73b1f979}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\jpn">
+      <UniqueIdentifier>{7d846324-2531-4493-9d46-8c86d78c4657}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\pol">
+      <UniqueIdentifier>{2abe6cb6-07bf-4bb0-8381-17dbaea51993}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\rus">
+      <UniqueIdentifier>{c6e419b5-eb07-460d-b0c0-8ced062045d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\usa">
+      <UniqueIdentifier>{73c0f987-9401-4b13-9696-c364339ce4f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\usm">
+      <UniqueIdentifier>{2c264134-d395-41d7-a57f-e7590b286bdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{b32c10c2-c322-4b67-91dd-4e67a764be35}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;fi;fd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{132c99e0-5828-40c8-8690-639535231303}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;cnt;rtf;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\dday\g_ai.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\g_arty.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\g_cmds.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\g_combat.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\g_ents.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\g_func.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\g_items.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\g_main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\g_maps.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\g_misc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\g_monster.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\g_objectives.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\g_phys.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\g_save.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\g_spawn.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\g_svcmds.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\g_target.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\g_trigger.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\g_turret.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\g_utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\g_weapon.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\m_actor.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\m_civilian.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\m_flash.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\m_insane.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\m_move.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\p_classes.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\p_client.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\p_generic_wep.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\p_hud.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\p_menu.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\p_observer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\p_trail.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\p_view.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\p_weapon.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\q_shared.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\u_entmgr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\x_fbomb.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\x_fire.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\ai\ai_class_dmbot.c">
+      <Filter>Source Files\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\ai\ai_class_monster_default.c">
+      <Filter>Source Files\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\ai\ai_dropnodes.c">
+      <Filter>Source Files\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\ai\ai_items.c">
+      <Filter>Source Files\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\ai\ai_links.c">
+      <Filter>Source Files\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\ai\ai_main.c">
+      <Filter>Source Files\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\ai\ai_movement.c">
+      <Filter>Source Files\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\ai\ai_navigation.c">
+      <Filter>Source Files\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\ai\ai_nodes.c">
+      <Filter>Source Files\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\ai\ai_tools.c">
+      <Filter>Source Files\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\ai\ai_weapons.c">
+      <Filter>Source Files\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\ai\AStar.c">
+      <Filter>Source Files\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\ai\bot_common.c">
+      <Filter>Source Files\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\ai\bot_spawn.c">
+      <Filter>Source Files\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\gbr\gbr_guninfo.c">
+      <Filter>Source Files\gbr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\gbr\gbr_item.c">
+      <Filter>Source Files\gbr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\gbr\gbr_main.c">
+      <Filter>Source Files\gbr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\gbr\gbr_spawn.c">
+      <Filter>Source Files\gbr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\gbr\gbr_weapon.c">
+      <Filter>Source Files\gbr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\grm\grm_guninfo.c">
+      <Filter>Source Files\grm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\grm\grm_item.c">
+      <Filter>Source Files\grm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\grm\grm_main.c">
+      <Filter>Source Files\grm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\grm\grm_spawn.c">
+      <Filter>Source Files\grm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\grm\grm_weapon.c">
+      <Filter>Source Files\grm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\ita\ita_guninfo.c">
+      <Filter>Source Files\ita</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\ita\ita_item.c">
+      <Filter>Source Files\ita</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\ita\ita_main.c">
+      <Filter>Source Files\ita</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\ita\ita_spawn.c">
+      <Filter>Source Files\ita</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\ita\ita_weapon.c">
+      <Filter>Source Files\ita</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\jpn\jpn_guninfo.c">
+      <Filter>Source Files\jpn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\jpn\jpn_item.c">
+      <Filter>Source Files\jpn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\jpn\jpn_main.c">
+      <Filter>Source Files\jpn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\jpn\jpn_spawn.c">
+      <Filter>Source Files\jpn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\jpn\jpn_weapon.c">
+      <Filter>Source Files\jpn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\pol\pol_guninfo.c">
+      <Filter>Source Files\pol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\pol\pol_item.c">
+      <Filter>Source Files\pol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\pol\pol_main.c">
+      <Filter>Source Files\pol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\pol\pol_spawn.c">
+      <Filter>Source Files\pol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\pol\pol_weapon.c">
+      <Filter>Source Files\pol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\rus\rus_guninfo.c">
+      <Filter>Source Files\rus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\rus\rus_item.c">
+      <Filter>Source Files\rus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\rus\rus_main.c">
+      <Filter>Source Files\rus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\rus\rus_spawn.c">
+      <Filter>Source Files\rus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\rus\rus_weapon.c">
+      <Filter>Source Files\rus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\usa\usa_guninfo.c">
+      <Filter>Source Files\usa</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\usa\usa_item.c">
+      <Filter>Source Files\usa</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\usa\usa_main.c">
+      <Filter>Source Files\usa</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\usa\usa_spawn.c">
+      <Filter>Source Files\usa</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\usa\usa_weapon.c">
+      <Filter>Source Files\usa</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\usm\usm_guninfo.c">
+      <Filter>Source Files\usm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\usm\usm_item.c">
+      <Filter>Source Files\usm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\usm\usm_main.c">
+      <Filter>Source Files\usm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\usm\usm_spawn.c">
+      <Filter>Source Files\usm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dday\usm\usm_weapon.c">
+      <Filter>Source Files\usm</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\dday\game.def">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\dday\ai\ai.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\ai\ai_local.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\ai\ai_nodes_local.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\ai\ai_nodes_shared.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\ai\ai_weapons.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\ai\AStar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\g_cmds.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\g_defines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\g_local.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\g_maps.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\gbr\gbr_classes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\gbr\gbr_defines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\gbr\gbr_main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\grm\grm_classes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\grm\grm_defines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\grm\grm_main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\ita\ita_classes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\ita\ita_defines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\ita\ita_main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\jpn\jpn_classes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\jpn\jpn_defines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\jpn\jpn_main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\m_actor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\m_insane.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\m_player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\p_classes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\p_menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\p_menus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\p_observer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\pol\pol_classes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\pol\pol_defines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\pol\pol_main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\q_shared.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\rus\rus_classes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\rus\rus_defines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\rus\rus_main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\usa\usa_classes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\usa\usa_defines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\usa\usa_main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\usm\usm_classes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\usm\usm_defines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\usm\usm_main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\x_fbomb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dday\x_fire.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
