@@ -1,0 +1,258 @@
+# features selection :
+#
+# gamespy/server browser:
+USE_GAMESPY=1
+# libcurl/http downloads:
+USE_CURL=1
+# ogg/vorbis music:
+USE_OGG=1
+# use tremor library for ogg/vorbis:
+USE_TREMOR=1
+# pci sound card support:
+USE_SNDPCI=1
+# cd audio support:
+USE_CDAUDIO=1
+# abrash's asm optimizations:
+USE_ASM=1
+
+CC = gcc
+CFLAGS = -g -Wall -O2 -fno-strict-aliasing -fomit-frame-pointer
+CPPFLAGS = -DREF_HARD_LINKED -DGAME_HARD_LINKED -DCLIENT_SPLIT_NETFRAME
+LDFLAGS =
+
+# net -- watt-32 tcp/ip library :
+WATT32_CFLAGS = -Iwattcp/inc -DWATT32_NO_OLDIES
+WATT32_LIBS = -Lwattcp/lib -lwatt
+
+ifeq ($(USE_ASM),1)
+CPPFLAGS+= -Did386=1
+endif
+
+ifeq ($(USE_GAMESPY),1)
+CPPFLAGS+= -DGAMESPY -DGAMESPY_HARD_LINKED
+endif
+
+ifeq ($(USE_SNDPCI),1)
+CPPFLAGS+= -DUSE_SNDPCI
+CFLAGS+= -Idos/3rdparty/include
+LDFLAGS+= -Ldos/3rdparty/lib -lau
+endif
+
+ifeq ($(USE_CDAUDIO),1)
+CPPFLAGS+= -DUSE_DOS_CD
+endif
+
+ifeq ($(USE_OGG),1)
+CPPFLAGS+= -DOGG_SUPPORT
+VORBIS_CFLAGS = -Idos/3rdparty/include
+ifneq ($(USE_TREMOR),1)
+VORBIS_LIBS = -Ldos/3rdparty/lib -lvorbisfile -lvorbis -logg
+else
+CPPFLAGS+= -DVORBIS_USE_TREMOR
+VORBIS_LIBS = -Ldos/3rdparty/lib -lvorbisidec -logg
+endif
+endif
+
+ifeq ($(USE_CURL),1)
+CPPFLAGS+= -DUSE_CURL -DCURL_NO_OLDIES
+CURL_CFLAGS = -Ilibcurl/include
+CURL_LIBS = -Llibcurl/lib -lcurl
+endif
+
+DOS = dos/dos_v2.o \
+	dos/cd_dos.o \
+	dos/vid_dos.o \
+	dos/vid_ext.o \
+	dos/snddma_dos.o \
+	dos/snd_gus.o \
+	dos/snd_sb.o \
+	dos/snd_pci.o \
+	dos/in_dos.o \
+	dos/net_watt.o \
+	dos/q_shdos.o \
+	dos/vregset.o \
+	dos/swimp_dos.o \
+	dos/no_dxe.o\
+	dos/sys_dos.o
+
+CLIENT = client/cl_input.o \
+	client/cl_inv.o \
+	client/cl_main.o \
+	client/cl_cin.o \
+	client/cl_ents.o \
+	client/cl_http.o \
+	client/cl_fx.o \
+	client/cl_parse.o \
+	client/cl_pred.o \
+	client/cl_scrn.o \
+	client/cl_tent.o \
+	client/cl_view.o \
+	client/menu.o \
+	client/console.o \
+	client/keys.o \
+	client/snd_dma.o \
+	client/snd_mem.o \
+	client/snd_mix.o \
+	client/snd_stream.o \
+	client/snd_wavstream.o \
+	client/qmenu.o \
+	client/cl_newfx.o
+
+ifeq ($(USE_GAMESPY),1)
+GAMESPY = Goa/CEngine/darray.o \
+	Goa/CEngine/gserver.o \
+	Goa/CEngine/gserverlist.o \
+	Goa/CEngine/gutil.o \
+	Goa/CEngine/hashtable.o \
+	Goa/nonport.o
+endif
+
+QCOMMON = qcommon/cmd.o \
+	qcommon/cmodel.o \
+	qcommon/common.o \
+	qcommon/crc.o \
+	qcommon/cvar.o \
+	qcommon/files.o \
+	qcommon/md4.o \
+	qcommon/net_chan.o \
+	qcommon/pmove.o
+
+SERVER = server/sv_ccmds.o \
+	server/sv_ents.o \
+	server/sv_game.o \
+	server/sv_init.o \
+	server/sv_main.o \
+	server/sv_send.o \
+	server/sv_user.o \
+	server/sv_world.o
+
+REFSOFT = ref_soft/r_alias.o \
+	ref_soft/r_main.o \
+	ref_soft/r_light.o \
+	ref_soft/r_misc.o \
+	ref_soft/r_model.o \
+	ref_soft/r_part.o \
+	ref_soft/r_poly.o \
+	ref_soft/r_polyse.o \
+	ref_soft/r_rast.o \
+	ref_soft/r_scan.o \
+	ref_soft/r_sprite.o \
+	ref_soft/r_surf.o \
+	ref_soft/r_aclip.o \
+	ref_soft/r_bsp.o \
+	ref_soft/r_draw.o \
+	ref_soft/r_edge.o \
+	ref_soft/r_image.o
+
+ifeq ($(USE_ASM),1)
+COMMONASM = gas/math.o
+CLIENTASM = gas/snd_mixa.o
+REFASM = gas/math_ref.o \
+	gas/d_copy.o \
+	gas/d_polysa.o \
+	gas/r_aclipa.o \
+	gas/r_draw16.o \
+	gas/r_drawa.o \
+	gas/r_edgea.o \
+	gas/r_scana.o \
+	gas/r_spr8.o \
+	gas/r_surf8.o \
+	gas/r_varsa.o \
+	gas/sys_dosa.o
+endif
+
+GAME = rsrc/dm_ball.o \
+	rsrc/dm_tag.o \
+	rsrc/g_ai.o \
+	rsrc/g_chase.o \
+	rsrc/g_cmds.o \
+	rsrc/g_combat.o \
+	rsrc/g_func.o \
+	rsrc/g_items.o \
+	rsrc/g_main.o \
+	rsrc/g_misc.o \
+	rsrc/g_monster.o \
+	rsrc/g_newai.o \
+	rsrc/g_newdm.o \
+	rsrc/g_newfnc.o \
+	rsrc/g_newtarg.o \
+	rsrc/g_newtrig.o \
+	rsrc/g_newweap.o \
+	rsrc/g_phys.o \
+	rsrc/g_save.o \
+	rsrc/g_spawn.o \
+	rsrc/g_sphere.o \
+	rsrc/g_svcmds.o \
+	rsrc/g_target.o \
+	rsrc/g_trigger.o \
+	rsrc/g_turret.o \
+	rsrc/g_utils.o \
+	rsrc/g_weapon.o \
+	rsrc/m_actor.o \
+	rsrc/m_berserk.o \
+	rsrc/m_boss2.o \
+	rsrc/m_boss3.o \
+	rsrc/m_boss31.o \
+	rsrc/m_boss32.o \
+	rsrc/m_brain.o \
+	rsrc/m_carrier.o \
+	rsrc/m_chick.o \
+	rsrc/m_flash.o \
+	rsrc/m_flipper.o \
+	rsrc/m_float.o \
+	rsrc/m_flyer.o \
+	rsrc/m_gladiator.o \
+	rsrc/m_gunner.o \
+	rsrc/m_hover.o \
+	rsrc/m_infantry.o \
+	rsrc/m_insane.o \
+	rsrc/m_medic.o \
+	rsrc/m_move.o \
+	rsrc/m_mutant.o \
+	rsrc/m_parasite.o \
+	rsrc/m_soldier.o \
+	rsrc/m_stalker.o \
+	rsrc/m_supertank.o \
+	rsrc/m_tank.o \
+	rsrc/m_turret.o \
+	rsrc/m_widow.o \
+	rsrc/m_widow2.o \
+	rsrc/p_client.o \
+	rsrc/p_hud.o \
+	rsrc/p_trail.o \
+	rsrc/p_view.o \
+	rsrc/p_weapon.o \
+	rsrc/q_shared.o
+
+OBJECTS = $(CLIENT) $(CLIENTASM) $(QCOMMON) $(COMMONASM) $(SERVER) $(GAME) $(GAMESPY) $(REFSOFT) $(REFASM) $(DOS)
+
+
+.PHONY: clean
+
+all: q2.exe
+
+q2.exe: $(OBJECTS)
+	$(CC) $(OBJECTS) -o $@ $(LDFLAGS) $(VORBIS_LIBS) $(CURL_LIBS) $(WATT32_LIBS) -lm
+
+clean:
+	rm -f qcommon/*.o
+	rm -f client/*.o
+	rm -f server/*.o
+	rm -f ref_soft/*.o
+	rm -f dos/*.o
+	rm -f gas/*.o
+	rm -f Goa/*.o
+	rm -f Goa/CEngine/*.o
+	rm -f rsrc/*.o
+
+DO_AS=$(CC) -x assembler-with-cpp
+
+%.o : %.c
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(WATT32_CFLAGS) $(VORBIS_CFLAGS) $(CURL_CFLAGS) -c $< -o $@
+
+%.o: %.S
+	$(DO_AS) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+
+%.o: %.s
+	$(DO_AS) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+
