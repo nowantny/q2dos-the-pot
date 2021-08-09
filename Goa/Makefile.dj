@@ -1,0 +1,41 @@
+CC = gcc
+CFLAGS = -Wall -O2 -fno-strict-aliasing -fomit-frame-pointer
+CPPFLAGS = -Did386=1 -DGAMESPY
+DXE3GEN = dxe3gen
+
+# net -- watt-32 tcp/ip library :
+WATT32_CFLAGS = -I../wattcp/inc -DWATT32_NO_OLDIES
+
+GAMESPY = CEngine/darray.o \
+	CEngine/gserver.o \
+	CEngine/gserverlist.o \
+	CEngine/gutil.o \
+	CEngine/hashtable.o \
+	nonport.o
+
+.PHONY: all test clean
+#
+
+OBJECTS =  $(GAMESPY)
+
+all: gamespy.dxe
+
+gamespy.dxe:	$(OBJECTS)
+	$(DXE3GEN) -U -E _GetGameSpyAPI $(OBJECTS) -o gamespy.dxe
+
+clean:
+	rm -f *.o
+	rm -f CEngine/*.o
+	rm -f Sdk/*.o
+
+DO_AS=$(CC) -x assembler-with-cpp
+
+%.o : %.c
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(WATT32_CFLAGS) -c $< -o $@
+
+%.o: %.S
+	$(DO_AS) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+
+%.o: %.s
+	$(DO_AS) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+
