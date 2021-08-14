@@ -3622,7 +3622,7 @@ void weapon_clusterlauncher_fire (edict_t *ent)
     float    radius;
 
     radius = damage+40;
-    fire_cluster (ent, start, forward, damage, 600, 1.25, radius);
+    if (is_quad)
         damage *= 4;
 
     VectorSet(offset, 8, 8, ent->viewheight-8);
@@ -3632,7 +3632,7 @@ void weapon_clusterlauncher_fire (edict_t *ent)
     VectorScale (forward, -2, ent->client->kick_origin);
     ent->client->kick_angles[0] = -1;
 
-    fire_cluster (ent, start, forward, damage, 600, 2.5, radius);
+    fire_cluster (ent, start, forward, damage, 600, 1.25, radius);
 
     gi.WriteByte (svc_muzzleflash);
     gi.WriteShort (ent-g_edicts);
