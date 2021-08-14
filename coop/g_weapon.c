@@ -2093,18 +2093,20 @@ void Cluster_Explode (edict_t *ent)
     gi.multicast (ent->s.origin, MULTICAST_PVS);
 
     // SumFuka did this bit : give grenades up/outwards velocities
-    VectorSet(grenade1,20,20,40);
-    VectorSet(grenade2,20,-20,40);
-    VectorSet(grenade3,-20,20,40);
-    VectorSet(grenade4,-20,-20,40);
+    // Modified by Phatman
+    VectorSet(grenade1,5.0+random()*10.0,5.0+random()*10.0,random()*40.0);
+    VectorSet(grenade2,5.0+random()*10.0,-5.0-random()*10.0,random()*40.0);
+    VectorSet(grenade3,-5.0-random()*10.0,5.0+random()*10.0,random()*40.0);
+    VectorSet(grenade4,-5.0-random()*10.0,-5.0-random()*10.0,random()*40.0);
 
     // Sean : explode the four grenades outwards
-    fire_grenade2(ent->owner, origin, grenade1, 120, 10, 1.0, 120, false);
-    fire_grenade2(ent->owner, origin, grenade2, 120, 10, 1.0, 120, false);
-    fire_grenade2(ent->owner, origin, grenade3, 120, 10, 1.0, 120, false);
-    fire_grenade2(ent->owner, origin, grenade4, 120, 10, 1.0, 120, false);
-
-    G_FreeEdict (ent);
+    // Modified by Phatman
+    fire_grenade2(ent->owner, origin, grenade1, 120, 10, 1.0+random()*1.0, 120, false);
+    fire_grenade2(ent->owner, origin, grenade2, 120, 10, 1.0+random()*1.0, 120, false);
+    fire_grenade2(ent->owner, origin, grenade3, 120, 10, 1.0+random()*1.0, 120, false);
+    fire_grenade2(ent->owner, origin, grenade4, 120, 10, 1.0+random()*1.0, 120, false);
+	
+	G_FreeEdict (ent);
 }
 
 void Cluster_Touch (edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *surf)

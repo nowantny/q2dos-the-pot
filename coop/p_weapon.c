@@ -3618,11 +3618,11 @@ void weapon_clusterlauncher_fire (edict_t *ent)
     vec3_t    offset;
     vec3_t    forward, right;
     vec3_t    start;
-    int        damage = 120;
+    int        damage = 20;
     float    radius;
 
     radius = damage+40;
-    if (is_quad)
+    fire_cluster (ent, start, forward, damage, 600, 1.25, radius);
         damage *= 4;
 
     VectorSet(offset, 8, 8, ent->viewheight-8);
