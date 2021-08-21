@@ -1507,7 +1507,7 @@ void plasma_touch (edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *su
 	{
 		return;
 	}
-	
+
 	if (other == ent->owner)
 	{
 		return;
@@ -1566,7 +1566,7 @@ void fire_plasma (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed
 
 	VectorClear (plasma->mins);
 	VectorClear (plasma->maxs);
-	
+
 	plasma->owner = self;
 	plasma->touch = plasma_touch;
 	plasma->nextthink = level.time + 8000/speed;
@@ -1575,10 +1575,10 @@ void fire_plasma (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed
 	plasma->radius_dmg = radius_damage;
 	plasma->dmg_radius = damage_radius;
 	plasma->s.sound = gi.soundindex ("weapons/rockfly.wav");
-	
+
 	plasma->s.modelindex = gi.modelindex ("sprites/s_photon.sp2");
 	plasma->s.effects |= EF_PLASMA | EF_ANIM_ALLFAST;
-	
+
 	if (self->client)
 	{
 		check_dodge (self, plasma->s.origin, dir, speed);
@@ -1895,9 +1895,9 @@ void plasma_explode(edict_t *self)
 
 	self->nextthink = level.time + FRAMETIME;
 	self->s.frame++;
-	
+
 	//free the entity after last frame
-	if (self->s.frame == 4) {		
+	if (self->s.frame == 4) {
 		self->think = G_FreeEdict;
 	}
 
@@ -1913,27 +1913,27 @@ void plasma_touch2(edict_t *self, edict_t *other, cplane_t *plane, csurface_t *s
 		return;
 
 	if (surf && (surf->flags & SURF_SKY))
-	{			
+	{
 		G_FreeEdict(self);
 		return;
-	}	
+	}
 
-	if (self->owner->client)		
-		PlayerNoise(self->owner, self->s.origin, PNOISE_IMPACT);		
+	if (self->owner->client)
+		PlayerNoise(self->owner, self->s.origin, PNOISE_IMPACT);
 
 	self->solid = SOLID_NOT;
 	self->touch = NULL;
-	
-	// calculate position for the explosion entity	
+
+	// calculate position for the explosion entity
 	VectorMA(self->s.origin, -0.02, self->velocity, self->s.origin);
 
 	VectorClear(self->velocity);
 	self->s.modelindex = 0;
-	
+
 	//change the sprite to explosion
 	self->s.modelindex = gi.modelindex("sprites/s_pls2.sp2");
 
-	self->s.frame = 0;	
+	self->s.frame = 0;
 	self->s.sound = 0;
 
 	//disable blue light effect for the explosion sprite
@@ -1951,14 +1951,14 @@ void plasma_touch2(edict_t *self, edict_t *other, cplane_t *plane, csurface_t *s
 	gi.sound(self, CHAN_VOICE, gi.soundindex("weapons/plsmexpl.wav"), 1, ATTN_STATIC, 0);
 
 	if (other->takedamage)
-	{			
+	{
 		damagetype = DAMAGE_ENERGY;
 		mod = MOD_PLASMA_RIFLE;
 		T_Damage(other, self, self->owner, self->velocity, self->s.origin, plane->normal, self->dmg, 1, damagetype, mod);
 	}
 	else
 	{
-		gi.WriteByte(svc_temp_entity);	
+		gi.WriteByte(svc_temp_entity);
 		gi.WriteByte(TE_FLECHETTE);
 	//	gi.WriteByte(TE_BLASTER);
 		gi.WritePosition(self->s.origin);
@@ -1967,7 +1967,7 @@ void plasma_touch2(edict_t *self, edict_t *other, cplane_t *plane, csurface_t *s
 		if (!plane)
 			gi.WriteDir(vec3_origin);
 		else
-			gi.WriteDir(plane->normal);		
+			gi.WriteDir(plane->normal);
 
 		gi.multicast(self->s.origin, MULTICAST_PVS);
 	}
@@ -1991,7 +1991,7 @@ void fire_plasma2(edict_t *self, vec3_t start, vec3_t dir, int damage, int speed
 	vec3_t spawnpos;
 
 	plasma = G_Spawn();
-	
+
 	//check if wall too close
 	VectorMA(start, 8, dir, end);
 	tr = gi.trace(self->s.origin, NULL, NULL, end, self, MASK_SOLID);
@@ -1999,13 +1999,13 @@ void fire_plasma2(edict_t *self, vec3_t start, vec3_t dir, int damage, int speed
 	//move spawn position back a little
 	if (tr.fraction < 1) {
 		if (tr.surface) {
-			VectorScale(dir, 42, scaledv);			
-			VectorInverse(scaledv);			
+			VectorScale(dir, 42, scaledv);
+			VectorInverse(scaledv);
 			VectorAdd(scaledv, start, spawnpos);
 		}
 	}
 	else {
-		VectorCopy(start, spawnpos);		
+		VectorCopy(start, spawnpos);
 	}
 
 	VectorCopy(spawnpos, plasma->s.origin);
@@ -2024,19 +2024,19 @@ void fire_plasma2(edict_t *self, vec3_t start, vec3_t dir, int damage, int speed
 	//set alpha effect
 	if (plasma_alpha->value == 1 || plasma_alpha->value == 2) {
 		plasma->s.renderfx = RF_TRANSLUCENT;
-	}	
-	
+	}
+
 	VectorClear(plasma->mins);
 	VectorClear(plasma->maxs);
-		
+
 	plasma->s.modelindex = gi.modelindex("sprites/s_pls1.sp2");
-	
+
 	plasma->owner = self;
 	plasma->touch = plasma_touch2;
-	
+
 	plasma->nextthink = level.time + 2;
 	plasma->think = G_FreeEdict;
-	
+
 	plasma->dmg = damage;
 	plasma->classname = "plasma";
 
@@ -2048,7 +2048,7 @@ void fire_plasma2(edict_t *self, vec3_t start, vec3_t dir, int damage, int speed
 
 	gi.linkentity(plasma);
 
-	
+
 }
 
 //======================================================================
@@ -2093,25 +2093,18 @@ void Cluster_Explode (edict_t *ent)
     gi.multicast (ent->s.origin, MULTICAST_PVS);
 
     // SumFuka did this bit : give grenades up/outwards velocities
-<<<<<<< Updated upstream
-    VectorSet(grenade1,5.0+random()*10.0,5.0+random()*10.0,random()*40.0);
-    VectorSet(grenade2,5.0+random()*10.0,-5.0-random()*10.0,random()*40.0);
-    VectorSet(grenade3,-5.0-random()*10.0,5.0+random()*10.0,random()*40.0);
-    VectorSet(grenade4,-5.0-random()*10.0,-5.0-random()*10.0,random()*40.0);
-=======
     // Modified by Phatman
     VectorSet(grenade1,10.0+random()*5.0,10.0+random()*5.0,30.0+random()*10.0);
     VectorSet(grenade2,10.0+random()*5.0,-10.0-random()*5.0,30.0+random()*10.0);
     VectorSet(grenade3,-10.0-random()*5.0,10.0+random()*5.0,30.0+random()*10.0);
     VectorSet(grenade4,-10.0-random()*5.0,-10.0-random()*5.0,30.0+random()*10.0);
->>>>>>> Stashed changes
 
     // Sean : explode the four grenades outwards
     fire_grenade2(ent->owner, origin, grenade1, 120, 10, 1.0+random()*1.0, 120, false);
     fire_grenade2(ent->owner, origin, grenade2, 120, 10, 1.0+random()*1.0, 120, false);
     fire_grenade2(ent->owner, origin, grenade3, 120, 10, 1.0+random()*1.0, 120, false);
     fire_grenade2(ent->owner, origin, grenade4, 120, 10, 1.0+random()*1.0, 120, false);
-	
+
 	G_FreeEdict (ent);
 }
 

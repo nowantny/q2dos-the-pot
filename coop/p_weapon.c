@@ -415,7 +415,7 @@ NoAmmoWeaponChange(edict_t *ent)
 	if (ent->client->pers.inventory[ITEM_INDEX (FindItem ("mag slug"))] &&
 		ent->client->pers.inventory[ITEM_INDEX (FindItem ("phalanx"))])
 	{
-		ent->client->newweapon = FindItem ("phalanx");	
+		ent->client->newweapon = FindItem ("phalanx");
 	}
 	/* FS: Coop: Xatrix specific */
 	if (ent->client->pers.inventory[ITEM_INDEX (FindItem ("cells"))] &&
@@ -423,7 +423,7 @@ NoAmmoWeaponChange(edict_t *ent)
 	{
 		ent->client->newweapon = FindItem ("ionrippergun");
 	}
-	
+
 	if (ent->client->pers.inventory[ITEM_INDEX(FindItem("cells"))] &&
 		ent->client->pers.inventory[ITEM_INDEX(FindItem("hyperblaster"))])
 	{
@@ -509,36 +509,6 @@ Called by ClientThink
 */
 void Think_Airstrike (edict_t *ent)
 {
-<<<<<<< Updated upstream
- vec3_t  start;
- vec3_t  forward;
- vec3_t  end;
- vec3_t  targetdir;
- trace_t tr;
-
- // find the target point
- VectorCopy(ent->s.origin, start);
- start[2] += ent->viewheight;
- AngleVectors(ent->client->v_angle, forward, NULL, NULL);
- VectorMA(start, 8192, forward, end);
- tr = gi.trace(start, NULL, NULL, end, ent, MASK_SHOT|CONTENTS_SLIME|CONTENTS_LAVA);
-
- // find the direction from the entry point to the target
- VectorSubtract(tr.endpos, ent->client->airstrike_entry, targetdir);
- VectorNormalize(targetdir);
- VectorAdd(ent->client->airstrike_entry, targetdir, start);
-
- // check to make sure we're not materializing in a solid
- if ( gi.pointcontents(start) == CONTENTS_SOLID )
- {
-        gi.cprintf(ent, PRINT_HIGH, "Airstrike intercepted en route.\n");
-        return;
- }
-
- // fire away!
- fire_rocket(ent, start, targetdir, 600, 550, 600, 600);
- gi.cprintf(ent, PRINT_HIGH, "Airstrike has arrived.\n");
-=======
     // Modified by Phatman
     static const int   rockets = 6;      // Number of rockets to drop
     static const float fastest = 550.0;  // Fastest rocket's speed
@@ -594,7 +564,6 @@ void Think_Airstrike (edict_t *ent)
         speed -= step;
     }
     gi.cprintf(ent, PRINT_HIGH, "Airstrike is dropping %d bombs, now.\n", rockets);
->>>>>>> Stashed changes
 }
 
 /*
@@ -3226,7 +3195,7 @@ void weapon_ionripper_fire (edict_t *ent) /* FS: Coop: Xatrix specific */
 		damage = 50;
 		kick = 60;
 	}
-	
+
 	if (is_quad)
 	{
 		damage *= 4;
@@ -3237,7 +3206,7 @@ void weapon_ionripper_fire (edict_t *ent) /* FS: Coop: Xatrix specific */
 	tempang[YAW] += crandom();
 
 	AngleVectors (tempang, forward, right, NULL);
-	
+
 	VectorScale (forward, -3, ent->client->kick_origin);
 	ent->client->kick_angles[0] = -3;
 
@@ -3259,7 +3228,7 @@ void weapon_ionripper_fire (edict_t *ent) /* FS: Coop: Xatrix specific */
 
 	if (! ( dmflags->intValue & DF_INFINITE_AMMO ) )
 		ent->client->pers.inventory[ent->client->ammo_index] -= ent->client->pers.weapon->quantity;
-	
+
 	if (ent->client->pers.inventory[ent->client->ammo_index] < 0)
 		ent->client->pers.inventory[ent->client->ammo_index] = 0;
 }
@@ -3280,7 +3249,7 @@ void Weapon_Ionripper (edict_t *ent) /* FS: Coop: Xatrix specific */
 }
 
 
-// 
+//
 //	Phalanx
 //
 
@@ -3302,7 +3271,7 @@ void weapon_phalanx_fire (edict_t *ent) /* FS: Coop: Xatrix specific */
 	damage = 70 + (int)(random() * 10.0);
 	radius_damage = 120;
 	damage_radius = 120;
-	
+
 	if (is_quad)
 	{
 		damage *= 4;
@@ -3323,10 +3292,10 @@ void weapon_phalanx_fire (edict_t *ent) /* FS: Coop: Xatrix specific */
 		v[YAW]   = ent->client->v_angle[YAW] - 1.5;
 		v[ROLL]  = ent->client->v_angle[ROLL];
 		AngleVectors (v, forward, right, up);
-		
+
 		radius_damage = 30;
 		damage_radius = 120;
-	
+
 		fire_plasma (ent, start, forward, damage, 725, damage_radius, radius_damage);
 
 		if (! ( dmflags->intValue & DF_INFINITE_AMMO ) )
@@ -3345,12 +3314,12 @@ void weapon_phalanx_fire (edict_t *ent) /* FS: Coop: Xatrix specific */
 		gi.WriteShort (ent-g_edicts);
 		gi.WriteByte (MZ_PHALANX | is_silenced);
 		gi.multicast (ent->s.origin, MULTICAST_PVS);
-		
+
 		PlayerNoise(ent, start, PNOISE_WEAPON);
 	}
-	
+
 	ent->client->ps.gunframe++;
-	
+
 }
 
 void Weapon_Phalanx (edict_t *ent) /* FS: Coop: Xatrix specific */
@@ -3404,7 +3373,7 @@ void weapon_trap_fire (edict_t *ent, qboolean held) /* FS: Coop: Xatrix specific
 	speed = GRENADE_MINSPEED + (GRENADE_TIMER - timer) * ((GRENADE_MAXSPEED - GRENADE_MINSPEED) / GRENADE_TIMER);
 	// fire_grenade2 (ent, start, forward, damage, speed, timer, radius, held);
 	fire_trap (ent, start, forward, damage, speed, timer, radius, held);
-	
+
 // you don't get infinite traps!  ZOID
 //	if (! ( dmflags->intValue & DF_INFINITE_AMMO ) )
 
@@ -3556,7 +3525,7 @@ void Plasma_Fire(edict_t *ent, vec3_t g_offset, int damage)
 	//Z, X, Y //
 	VectorSet(offset, 50, 12, ent->viewheight - (9 + sr));
 	P_ProjectSource(ent->client, ent->s.origin, offset, forward, right, start);
-	
+
 	VectorScale(forward, -2, ent->client->kick_origin);
 
 	ent->client->kick_angles[0] = -1;
@@ -3617,7 +3586,7 @@ void Weapon_PlasmaRifle_Fire(edict_t *ent)
 			Plasma_Fire(ent, vec3_origin, damage);
 
 			ent->client->anim_priority = ANIM_ATTACK;
-			
+
 			if (ent->client->ps.pmove.pm_flags & PMF_DUCKED)
 			{
 				ent->s.frame = FRAME_crattak1 - 1;
@@ -3634,8 +3603,8 @@ void Weapon_PlasmaRifle_Fire(edict_t *ent)
 		ent->client->ps.gunframe++;
 
 		//loop
-		if (ent->client->ps.gunframe == 11 && ent->client->pers.inventory[ent->client->ammo_index]) {			
-			ent->client->ps.gunframe = 9;						
+		if (ent->client->ps.gunframe == 11 && ent->client->pers.inventory[ent->client->ammo_index]) {
+			ent->client->ps.gunframe = 9;
 		}
 
 
