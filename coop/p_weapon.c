@@ -509,6 +509,7 @@ Called by ClientThink
 */
 void Think_Airstrike (edict_t *ent)
 {
+<<<<<<< Updated upstream
  vec3_t  start;
  vec3_t  forward;
  vec3_t  end;
@@ -537,6 +538,63 @@ void Think_Airstrike (edict_t *ent)
  // fire away!
  fire_rocket(ent, start, targetdir, 600, 550, 600, 600);
  gi.cprintf(ent, PRINT_HIGH, "Airstrike has arrived.\n");
+=======
+    // Modified by Phatman
+    static const int   rockets = 6;      // Number of rockets to drop
+    static const float fastest = 550.0;  // Fastest rocket's speed
+    static const float slowest = 275.0;  // Slowest rocket's speed
+    static const float step    = rockets > 1 ? (fastest-slowest)/(rockets-1) : 0;
+    int     count, index;
+    float   speed;
+    vec3_t  start, forward, end, targetdir, path;
+    trace_t tr;
+
+    // find the target point
+    VectorCopy(ent->s.origin, start);
+    start[2] += ent->viewheight;
+    AngleVectors(ent->client->v_angle, forward, NULL, NULL);
+    VectorMA(start, 8192, forward, end);
+    tr = gi.trace(start, NULL, NULL, end, ent, MASK_SHOT|CONTENTS_SLIME|CONTENTS_LAVA);
+
+    // Make sure one or more rockets are configured to be fired
+    if (rockets < 1)
+    {
+        gi.cprintf(ent, PRINT_HIGH, "No airstrikes available.\n");
+        return;
+    }
+
+    // Make sure the target is not in the sky
+    if ( tr.surface && tr.surface->flags & SURF_SKY )
+    {
+        gi.cprintf(ent, PRINT_HIGH, "Airstrikes can not target the sky!\n");
+        return;
+    }
+
+    // find the direction from the entry point to the target
+    VectorSubtract(tr.endpos, ent->client->airstrike_entry, targetdir);
+    VectorNormalize(targetdir);
+    VectorAdd(ent->client->airstrike_entry, targetdir, start);
+
+    // check to make sure we're not materializing in a solid
+    if ( gi.pointcontents(start) == CONTENTS_SOLID )
+    {
+        gi.cprintf(ent, PRINT_HIGH, "Airstrike intercepted en route.\n");
+        return;
+    }
+
+    // Fire the rockets along slightly randomized paths, fastest to slowest
+    speed = fastest;
+    for (count = 0; count < rockets; count++)
+    {
+        VectorCopy(targetdir, path);
+        for (index = 0; index < 3; index++)
+            path[index] += crandom() * 0.1;
+        VectorNormalize(path);
+        fire_rocket(ent, start, path, 600, speed, 600, 600);
+        speed -= step;
+    }
+    gi.cprintf(ent, PRINT_HIGH, "Airstrike is dropping %d bombs, now.\n", rockets);
+>>>>>>> Stashed changes
 }
 
 /*

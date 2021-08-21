@@ -704,7 +704,7 @@ struct altsel_s
 {
 	int num;
 	char *weapon[MAX_ALT];
-} alternates[] = 
+} alternates[] =
 {
 	{0}, // filler
 	{2,{"Blaster", "Flare Gun"}},
@@ -751,7 +751,7 @@ void findNext(edict_t *ent, struct altsel_s *ptr, int offset) /* FS: Zaero speci
 	{
 		if (tryUse(ent, ptr->weapon[offset]))
 			break;
-		
+
 		offset++;
 		// wrap around
 		if (offset >= ptr->num)
@@ -768,7 +768,7 @@ void altSelect(edict_t *ent, int num) /* FS: Zaero specific game dll changes */
 	int i = 0;
 	struct altsel_s *ptr = NULL;
 	gitem_t *it = NULL;
-	
+
 	// within range?
 	if (num < 1 || num > 10)
 	{
@@ -795,7 +795,7 @@ void altSelect(edict_t *ent, int num) /* FS: Zaero specific game dll changes */
 	{
 		offset = ((offset + 1) % (ptr->num));
 	}
-	
+
 	// now select this offset
 	findNext(ent, ptr, offset);
 }
@@ -1188,7 +1188,7 @@ Cmd_Inven_f(edict_t *ent)
 	}
 
 	cl->showinventory = true;
-	
+
 	InventoryMessage(ent);
 	gi.unicast(ent, true);
 }
@@ -2287,9 +2287,9 @@ Plasma rifle
 
 void Cmd_Plasma_f(edict_t *ent)
 {
-	
 
-	gi.cprintf(ent, PRINT_HIGH, "\nHot Plasma!\n");	
+
+	gi.cprintf(ent, PRINT_HIGH, "\nHot Plasma!\n");
 	gi.cprintf(ent, PRINT_HIGH, "Quake 2 Plasma Rifle mod by marsilainen \n\n");
 
 //	gi.cprintf(ent, PRINT_HIGH, "\Commands:\n");
@@ -2310,40 +2310,41 @@ CCH: new function to call in airstrikes
 */
 void Cmd_Airstrike_f (edict_t *ent)
 {
- vec3_t  start;
- vec3_t  forward;
- vec3_t  end;
- trace_t tr;
- if(ent->client->pers.spectator || ent->client->blinky_client.cam_target)
+    static const float seconds = 2.5;  // Number of seconds before airstrike
+    vec3_t  start;
+    vec3_t  forward;
+    vec3_t  end;
+    trace_t tr;
+    if(ent->client->pers.spectator || ent->client->blinky_client.cam_target)
     {
         gi.cprintf(ent, PRINT_HIGH, "Spectators can't use this command.\n");
         return;
     }
 
- // make sure an airstrike hasn't already been called
- if ( ent->client->airstrike_called )
- {
+    // make sure an airstrike hasn't already been called
+    if ( ent->client->airstrike_called )
+    {
         gi.cprintf(ent, PRINT_HIGH, "The airstrike is already on its way.\n");
         return;
- }
+    }
 
- // make sure we're pointed at the sky
- VectorCopy(ent->s.origin, start);
- start[2] += ent->viewheight;
- AngleVectors(ent->client->v_angle, forward, NULL, NULL);
- VectorMA(start, 8192, forward, end);
- tr = gi.trace(start, NULL, NULL, end, ent, MASK_SHOT|CONTENTS_SLIME|CONTENTS_LAVA);
- if ( tr.surface && !(tr.surface->flags & SURF_SKY) )
- {
+    // make sure we're pointed at the sky
+    VectorCopy(ent->s.origin, start);
+    start[2] += ent->viewheight;
+    AngleVectors(ent->client->v_angle, forward, NULL, NULL);
+    VectorMA(start, 8192, forward, end);
+    tr = gi.trace(start, NULL, NULL, end, ent, MASK_SHOT|CONTENTS_SLIME|CONTENTS_LAVA);
+    if ( tr.surface && !(tr.surface->flags & SURF_SKY) )
+    {
         gi.cprintf(ent, PRINT_HIGH, "Airstrikes have to come through the sky!\n");
         return;
- }
+    }
 
- // set up for the airstrike
- VectorCopy(tr.endpos, ent->client->airstrike_entry);
- ent->client->airstrike_called = 1;
- ent->client->airstrike_time = level.time + 2;
- gi.cprintf(ent, PRINT_HIGH, "Airstrike en route, ETA 2 seconds. Light up target.\n");
+    // set up for the airstrike
+    VectorCopy(tr.endpos, ent->client->airstrike_entry);
+    ent->client->airstrike_called = 1;
+    ent->client->airstrike_time = level.time + seconds;
+    gi.cprintf(ent, PRINT_HIGH, "Airstrike en route, ETA %.1f seconds. Light up target.\n", seconds);
 }
 
 
@@ -2394,7 +2395,7 @@ ClientCommand(edict_t *ent)
 		{
 			SelectPrevItem (ent, -1);
 		}
-	
+
 		return;
 	}
 
@@ -2434,9 +2435,9 @@ ClientCommand(edict_t *ent)
 		return;
 	}
 
-	if (Q_stricmp(cmd, "plasma") == 0){	
+	if (Q_stricmp(cmd, "plasma") == 0){
 		Cmd_Plasma_f(ent);
-		return;	
+		return;
 	}
 
 	if (Q_stricmp(cmd, "menu") == 0) /* FS: Added */

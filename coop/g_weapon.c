@@ -2093,10 +2093,18 @@ void Cluster_Explode (edict_t *ent)
     gi.multicast (ent->s.origin, MULTICAST_PVS);
 
     // SumFuka did this bit : give grenades up/outwards velocities
+<<<<<<< Updated upstream
     VectorSet(grenade1,5.0+random()*10.0,5.0+random()*10.0,random()*40.0);
     VectorSet(grenade2,5.0+random()*10.0,-5.0-random()*10.0,random()*40.0);
     VectorSet(grenade3,-5.0-random()*10.0,5.0+random()*10.0,random()*40.0);
     VectorSet(grenade4,-5.0-random()*10.0,-5.0-random()*10.0,random()*40.0);
+=======
+    // Modified by Phatman
+    VectorSet(grenade1,10.0+random()*5.0,10.0+random()*5.0,30.0+random()*10.0);
+    VectorSet(grenade2,10.0+random()*5.0,-10.0-random()*5.0,30.0+random()*10.0);
+    VectorSet(grenade3,-10.0-random()*5.0,10.0+random()*5.0,30.0+random()*10.0);
+    VectorSet(grenade4,-10.0-random()*5.0,-10.0-random()*5.0,30.0+random()*10.0);
+>>>>>>> Stashed changes
 
     // Sean : explode the four grenades outwards
     fire_grenade2(ent->owner, origin, grenade1, 120, 10, 1.0+random()*1.0, 120, false);
