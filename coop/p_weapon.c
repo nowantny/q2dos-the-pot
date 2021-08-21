@@ -510,9 +510,9 @@ Called by ClientThink
 void Think_Airstrike (edict_t *ent)
 {
     // Modified by Phatman
-    static const int   rockets = 6;      // Number of rockets to drop
-    static const float fastest = 550.0;  // Fastest rocket's speed
-    static const float slowest = 275.0;  // Slowest rocket's speed
+    static const int   rockets = 12;      // Number of rockets to drop
+    static const float fastest = 825.0;  // Fastest rocket's speed
+    static const float slowest = 412.5;  // Slowest rocket's speed
     static const float step    = rockets > 1 ? (fastest-slowest)/(rockets-1) : 0;
     int     count, index;
     float   speed;
