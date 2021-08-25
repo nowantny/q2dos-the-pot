@@ -258,6 +258,8 @@ InitGame(void)
 	gi.cvar_setdescription("sv_spawn_protection_time", "Time (in seconds) for spawn protection.  Requires sv_spawn_protection to be enabled.");
 	adminpass = gi.cvar("adminpass", "", 0);
 	gi.cvar_setdescription("adminpass", "Administator password for special commands.  Not related to RCON.");
+	checkpoints_password = gi.cvar("checkpoints_password", "", 0);
+	gi.cvar_setdescription("checkpoints_password", "Password required to edit checkpoints.");
 	vippass = gi.cvar("vippass", "", 0);
 	gi.cvar_setdescription("vippass", "VIP password for cheating and special commands.  Not related to RCON.");
 	gamedir = gi.cvar("gamedir", "", 0); /* FS: Coop: Added */
@@ -351,7 +353,7 @@ InitGame(void)
 	globals.num_edicts = game.maxclients+1;
 
 	//plasma rifle cvar variables
-	plasma_alpha = gi.cvar("plasma_alpha", "0", CVAR_ARCHIVE);	
+	plasma_alpha = gi.cvar("plasma_alpha", "0", CVAR_ARCHIVE);
 
 	if (gamerules) /* FS: Coop: Rogue specific */
 	{
@@ -557,16 +559,16 @@ WriteField1(FILE *f /* unused */, field_t *field, byte *base)
 					z = 5/i;
 #endif
 #endif
-					/* Asa: April 18 2021 */
+					/* Phatman: April 18 2021 */
 					gi.dprintf(DEVELOPER_MSG_SAVE, "Field: %s\n", field->name);
 
 					gi.error ("WriteField1: function not in list, can't save game");
 					return;
 				}
-				
+
 				len = strlen(func->funcStr)+1;
 			}
-			
+
 			*(int *)p = len;
 			break;
 		case F_MMOVE:
@@ -578,7 +580,7 @@ WriteField1(FILE *f /* unused */, field_t *field, byte *base)
 			else
 			{
 				mmove = GetMmoveByAddress (*(mmove_t **)p);
-				
+
 				if (!mmove)
 				{
 					gi.error ("WriteField1: mmove not in list, can't save game");
@@ -587,7 +589,7 @@ WriteField1(FILE *f /* unused */, field_t *field, byte *base)
 
 				len = strlen(mmove->mmoveStr)+1;
 			}
-			
+
 			*(int *)p = len;
 			break;
 		default:
@@ -622,24 +624,24 @@ WriteField2(FILE *f, field_t *field, byte *base)
 
 			break;
 		case F_FUNCTION:
-			
+
 			if (*(byte **)p)
 			{
 				func = GetFunctionByAddress (*(byte **)p);
-				
+
 				if (!func)
 				{
 					gi.error ("WriteField2: function not in list, can't save game");
 					return;
 				}
-				
+
 				len = strlen(func->funcStr)+1;
 				fwrite (func->funcStr, len, 1, f);
 			}
 
 			break;
 		case F_MMOVE:
-			
+
 			if (*(byte **)p)
 			{
 				mmove = GetMmoveByAddress (*(mmove_t **)p);
@@ -786,7 +788,7 @@ ReadField(FILE *f, field_t *field, byte *base)
 				}
 
 				fread (funcStr, len, 1, f);
-				
+
 				if ( !(*(mmove_t **)p = FindMmoveByName (funcStr)) )
 				{
 					gi.error ("ReadField: mmove %s not found in table, can't load game", funcStr);
@@ -812,10 +814,10 @@ WriteClient(FILE *f, gclient_t *client)
 
 	/* all of the ints, floats, and vectors stay as they are */
 	temp = *client;
-	
-	/* Asa: April 18 2021 */
+
+	/* Phatman: April 18 2021 */
 	gi.dprintf(DEVELOPER_MSG_SAVE, "WriteClient %s\n", client->pers.netname);
-	
+
 	/* change the pointers to indexes */
 	for (field = clientfields; field->name; field++)
 	{
@@ -997,8 +999,8 @@ WriteEdict(FILE *f, edict_t *ent)
 
 	/* all of the ints, floats, and vectors stay as they are */
 	temp = *ent;
-	
-	/* Asa: April 18 2021 */
+
+	/* Phatman: April 18 2021 */
 	gi.dprintf(DEVELOPER_MSG_SAVE, "WriteEdict %s\n", ent->classname);
 
 	/* change the pointers to lengths or indexes */
@@ -1030,8 +1032,8 @@ WriteLevelLocals(FILE *f)
 
 	/* all of the ints, floats, and vectors stay as they are */
 	temp = level;
-	
-	/* Asa: April 18 2021 */
+
+	/* Phatman: April 18 2021 */
 	gi.dprintf(DEVELOPER_MSG_SAVE, "WriteLevelLocals %s\n", level.mapname);
 
 	/* change the pointers to lengths or indexes */

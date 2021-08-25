@@ -2000,8 +2000,25 @@ void Cmd_PlaceCheckpoint_f (edict_t *ent) /* FS: Added */
 {
 	edict_t *spawn;
 
-	if (!ent || !ent->client || !ent->client->pers.isAdmin || !coop->intValue)
+	if (!ent || !ent->client || !coop->intValue)
 	{
+		return;
+	}
+
+	// Phatman: Modified to take argument based password
+    if(!checkpoints_password->string[0])
+    {
+		gi.cprintf(ent, PRINT_HIGH, "This feature is currently disabled.\n");
+        return;
+    }
+	if (gi.argc() < 2)
+	{
+		gi.cprintf(ent, PRINT_HIGH, "Password required.\n");
+		return;
+	}
+	if (strcmp(gi.argv(1), checkpoints_password->string))
+	{
+		gi.cprintf(ent, PRINT_HIGH, "Invalid password.\n");
 		return;
 	}
 
@@ -2031,8 +2048,25 @@ void Cmd_SaveCheckpoint_f (edict_t *ent) /* FS: Added */
 	FILE *f = NULL;
 	int count = 0;
 
-	if (!ent || !ent->client || !ent->client->pers.isAdmin || !coop->intValue)
+	if (!ent || !ent->client || !coop->intValue)
 	{
+		return;
+	}
+
+	// Phatman: Modified to take argument based password
+    if(!checkpoints_password->string[0])
+    {
+		gi.cprintf(ent, PRINT_HIGH, "This feature is currently disabled.\n");
+        return;
+    }
+	if (gi.argc() < 2)
+	{
+		gi.cprintf(ent, PRINT_HIGH, "Password required.\n");
+		return;
+	}
+	if (strcmp(gi.argv(1), checkpoints_password->string))
+	{
+		gi.cprintf(ent, PRINT_HIGH, "Invalid password.\n");
 		return;
 	}
 
@@ -2079,49 +2113,48 @@ void Cmd_DeleteCheckpoints_f (edict_t *ent) /* FS: Added */
 {
 	char fileName[MAX_OSPATH];
 	FILE *f = NULL;
+    int count = 0;
+    edict_t *coop_checkpoint;
 
-	if (!ent || !ent->client || !ent->client->pers.isAdmin || !coop->intValue)
+	if (!ent || !ent->client || !coop->intValue)
 	{
 		return;
 	}
 
-	if(gi.argc() == 2 && !Q_stricmp(gi.argv(1), "all")) /* FS: Remove all from the map.  Maybe it was saved, transitioned this map and I don't want to restart the whole map. */
+	// Phatman: Modified to take argument based password
+    if(!checkpoints_password->string[0])
+    {
+		gi.cprintf(ent, PRINT_HIGH, "This feature is currently disabled.\n");
+        return;
+    }
+	if (gi.argc() < 2)
 	{
-		int count = 0;
-		edict_t *coop_checkpoint;
-
-		for (coop_checkpoint = g_edicts; coop_checkpoint < &g_edicts[globals.num_edicts]; coop_checkpoint++)
-		{
-			if(!coop_checkpoint->inuse || !coop_checkpoint->classname)
-			{
-				continue;
-			}
-
-			if(!Q_stricmp(coop_checkpoint->classname, "info_coop_checkpoint"))
-			{
-				G_FreeEdict(coop_checkpoint);
-				count++;
-			}
-
-			level.current_coop_checkpoint = NULL;
-		}
-
-		gi.cprintf(ent, PRINT_HIGH, "Removed %d info_coop_checkpoints from map.\n", count);
+		gi.cprintf(ent, PRINT_HIGH, "Password required.\n");
+		return;
 	}
-
-	Com_sprintf(fileName, sizeof(fileName), "%s/maps/%s_checkpoints.txt", gamedir->string, level.mapname);
-
-	f = fopen(fileName, "w");
-	if(!f)
+	if (strcmp(gi.argv(1), checkpoints_password->string))
 	{
-		gi.cprintf(ent, PRINT_HIGH, "Error: Can't open %s for writing!\n", fileName);
+		gi.cprintf(ent, PRINT_HIGH, "Invalid password.\n");
 		return;
 	}
 
-	fclose(f);
+    for (coop_checkpoint = g_edicts; coop_checkpoint < &g_edicts[globals.num_edicts]; coop_checkpoint++)
+    {
+        if(!coop_checkpoint->inuse || !coop_checkpoint->classname)
+        {
+            continue;
+        }
 
-	gi.cprintf(ent, PRINT_HIGH, "Deleting checkpoint file: %s.\n", fileName);
-	remove(fileName);
+        if(!Q_stricmp(coop_checkpoint->classname, "info_coop_checkpoint"))
+        {
+            G_FreeEdict(coop_checkpoint);
+            count++;
+        }
+
+        level.current_coop_checkpoint = NULL;
+    }
+
+    gi.cprintf(ent, PRINT_HIGH, "Removed %d info_coop_checkpoints from map.\n", count);
 }
 
 void

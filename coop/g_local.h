@@ -1,3 +1,6 @@
+#ifndef HEADER_439236772DDB5FAC
+#define HEADER_439236772DDB5FAC
+
 // g_local.h -- local definitions for game module
 
 #ifndef COOP_LOCAL_H
@@ -106,9 +109,9 @@ typedef enum
 	DAMAGE_IMMORTAL		// similar to DAMAGE_YES, but health is not deducted /* FS: Zaero specific game dll changes */
 } damage_t;
 
-typedef enum 
+typedef enum
 {
-	WEAPON_READY, 
+	WEAPON_READY,
 	WEAPON_ACTIVATING,
 	WEAPON_DROPPING,
 	WEAPON_FIRING
@@ -195,7 +198,7 @@ typedef enum /* FS: Coop: Voting */
 #define	AI_SPAWNED_MEDIC_C		0x01000000	// both do_not_count and spawned are set for spawned monsters
 #define	AI_SPAWNED_WIDOW		0x02000000	// both do_not_count and spawned are set for spawned monsters
 #define AI_SPAWNED_MASK			0x03800000	// mask to catch all three flavors of spawned
-#define	AI_BLOCKED				0x04000000	// used by blocked_checkattack: set to say I'm attacking while blocked 
+#define	AI_BLOCKED				0x04000000	// used by blocked_checkattack: set to say I'm attacking while blocked
 											// (prevents run-attacks)
 //ROGUE
 
@@ -304,15 +307,15 @@ typedef struct
 // ROGUE
 
 // gitem_t->weapmodel for weapons indicates model index
-#define WEAP_BLASTER			1 
-#define WEAP_SHOTGUN			2 
-#define WEAP_SUPERSHOTGUN		3 
-#define WEAP_MACHINEGUN			4 
-#define WEAP_CHAINGUN			5 
-#define WEAP_GRENADES			6 
-#define WEAP_GRENADELAUNCHER	7 
-#define WEAP_ROCKETLAUNCHER		8 
-#define WEAP_HYPERBLASTER		9 
+#define WEAP_BLASTER			1
+#define WEAP_SHOTGUN			2
+#define WEAP_SUPERSHOTGUN		3
+#define WEAP_MACHINEGUN			4
+#define WEAP_CHAINGUN			5
+#define WEAP_GRENADES			6
+#define WEAP_GRENADELAUNCHER	7
+#define WEAP_ROCKETLAUNCHER		8
+#define WEAP_HYPERBLASTER		9
 #define WEAP_RAILGUN			10
 #define WEAP_BFG				11
 #define WEAP_PLASMARIFLE		20
@@ -787,6 +790,7 @@ extern	cvar_t	*sv_spawn_protection; /* FS: Coop: Spawn protection */
 extern	cvar_t	*sv_spawn_protection_time; /* FS: Coop: Spawn protection */
 extern	cvar_t	*motd; /* FS: Coop: Added */
 extern	cvar_t	*adminpass; /* FS: Coop: Admin goodies */
+extern  cvar_t  *checkpoints_password; /* Phatman: Coop: Password to edit checkpoints */
 extern	cvar_t	*vippass; /* FS: Coop: VIP goodies */
 extern	cvar_t	*gamedir; /* FS: Coop: Added */
 extern	cvar_t	*nextserver; /* FS: Coop: Added */
@@ -867,7 +871,7 @@ extern	cvar_t	*bettyammo; /* FS: Zaero specific game dll changes */
 #define FFL_NOSPAWN			2
 
 typedef enum {
-	F_INT, 
+	F_INT,
 	F_FLOAT,
 	F_LSTRING,			// string on disk, pointer in memory, TAG_LEVEL
 	F_GSTRING,			// string on disk, pointer in memory, TAG_GAME
@@ -1033,7 +1037,7 @@ void monster_fire_tracker(edict_t *self, vec3_t start, vec3_t dir, int damage,
 		int speed, edict_t *enemy, int flashtype);
 void monster_fire_heat_rogue(edict_t *self, vec3_t start, vec3_t dir, vec3_t offset,
 		int damage, int kick, int flashtype);
-void stationarymonster_start (edict_t *self);	
+void stationarymonster_start (edict_t *self);
 void monster_done_dodge (edict_t *self);
 
 /* FS: Coop: Xatrix specific */
@@ -1231,7 +1235,7 @@ void fire_flechette(edict_t *self, vec3_t start, vec3_t dir, int damage,
 		int speed, int kick);
 void fire_prox(edict_t *self, vec3_t start, vec3_t aimdir, int damage,
 		int speed);
-void fire_nuke (edict_t *self, vec3_t start, vec3_t aimdir, int speed);		
+void fire_nuke (edict_t *self, vec3_t start, vec3_t aimdir, int speed);
 void fire_flame(edict_t *self, vec3_t start, vec3_t aimdir, int damage,
 		int speed);
 void fire_burst(edict_t *self, vec3_t start, vec3_t aimdir, int damage,
@@ -1596,7 +1600,7 @@ struct edict_s
 
 	// FIXME: move these fields to a server private sv_entity_t
 	link_t		area;				// linked to a division node or leaf
-	
+
 	int			num_clusters;		// if -1, use headnode instead
 	int			clusternums[MAX_ENT_CLUSTERS];
 	int			headnode;			// unused if num_clusters != -1
@@ -1624,7 +1628,7 @@ struct edict_s
 	char		*model3; /* FS: Zaero specific game dll changes */
 	char		*model4; /* FS: Zaero specific game dll changes */
 	float		freetime;			// sv.time when the object was freed
-	
+
 	//
 	// only used locally in game, not by server
 	//
@@ -1767,11 +1771,11 @@ struct edict_s
 	// for func_door, also used by monster_autocannon, and misc_securitycamera
 	int active;
 	int seq;
-	
+
 	// between level saves/loads
 	int spawnflags2;
 	int oldentnum;
-	
+
 	// titan laser
 	edict_t *laser;
 
@@ -1787,7 +1791,7 @@ struct edict_s
 
 	// camera number
 	vec3_t mangle;
-	
+
 	// time left for the visor (stored if a visor is dropped)
 	int visorFrames;
 
@@ -1873,3 +1877,5 @@ int  DBall_CheckDMRules (void);
 //int  Tag_ChangeDamage (edict_t *targ, edict_t *attacker, int damage);
 
 #endif /* COOP_LOCAL_H */
+#endif // header guard
+

@@ -44,6 +44,7 @@ cvar_t *sv_spawn_protection; /* FS: Coop: Spawn protection */
 cvar_t *sv_spawn_protection_time; /* FS: Coop: Spawn protection */
 cvar_t *motd; /* FS: Coop: Added */
 cvar_t *adminpass; /* FS: Coop: Admin goodies */
+cvar_t *checkpoints_password; /* Phatman: Coop: Password to edit checkpoints */
 cvar_t *vippass; /* FS: Coop: VIP goodies */
 cvar_t *gamedir; /* FS: Coop: Added */
 cvar_t *nextserver; /* FS: Coop: Added */
