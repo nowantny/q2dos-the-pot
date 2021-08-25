@@ -2006,11 +2006,11 @@ void Cmd_PlaceCheckpoint_f (edict_t *ent) /* FS: Added */
 	}
 
 	// Phatman: Modified to take argument based password
-    if(!checkpoints_password->string[0])
-    {
+	if (!checkpoints_password->string[0])
+	{
 		gi.cprintf(ent, PRINT_HIGH, "This feature is currently disabled.\n");
-        return;
-    }
+		return;
+	}
 	if (gi.argc() < 2)
 	{
 		gi.cprintf(ent, PRINT_HIGH, "Password required.\n");
@@ -2054,11 +2054,11 @@ void Cmd_SaveCheckpoint_f (edict_t *ent) /* FS: Added */
 	}
 
 	// Phatman: Modified to take argument based password
-    if(!checkpoints_password->string[0])
-    {
+	if (!checkpoints_password->string[0])
+	{
 		gi.cprintf(ent, PRINT_HIGH, "This feature is currently disabled.\n");
-        return;
-    }
+		return;
+	}
 	if (gi.argc() < 2)
 	{
 		gi.cprintf(ent, PRINT_HIGH, "Password required.\n");
@@ -2122,11 +2122,11 @@ void Cmd_DeleteCheckpoints_f (edict_t *ent) /* FS: Added */
 	}
 
 	// Phatman: Modified to take argument based password
-    if(!checkpoints_password->string[0])
-    {
+	if (!checkpoints_password->string[0])
+	{
 		gi.cprintf(ent, PRINT_HIGH, "This feature is currently disabled.\n");
-        return;
-    }
+		return;
+	}
 	if (gi.argc() < 2)
 	{
 		gi.cprintf(ent, PRINT_HIGH, "Password required.\n");
