@@ -510,11 +510,12 @@ Called by ClientThink
 void Think_Airstrike (edict_t *ent)
 {
     // Modified by Phatman
-    static const int   rockets = 12;      // Number of rockets to drop
+    static const int   rockets = 12;     // Number of rockets to drop
+    static const int   ammo    = 50;     // Ammo cost for airstrike
     static const float fastest = 825.0;  // Fastest rocket's speed
     static const float slowest = 412.5;  // Slowest rocket's speed
     static const float step    = rockets > 1 ? (fastest-slowest)/(rockets-1) : 0;
-    int     count, index;
+    int     count, index, offset;
     float   speed;
     vec3_t  start, forward, end, targetdir, path;
     trace_t tr;
@@ -540,6 +541,14 @@ void Think_Airstrike (edict_t *ent)
         return;
     }
 
+    // Check if the player has enough ammo
+    index = ITEM_INDEX(FindItem("rockets"));
+    if (ent->client->pers.inventory[index] < ammo)
+    {
+        gi.cprintf(ent, PRINT_HIGH, "Airstrikes require %d rockets.\n", ammo);
+        return;
+    }
+
     // find the direction from the entry point to the target
     VectorSubtract(tr.endpos, ent->client->airstrike_entry, targetdir);
     VectorNormalize(targetdir);
@@ -557,12 +566,15 @@ void Think_Airstrike (edict_t *ent)
     for (count = 0; count < rockets; count++)
     {
         VectorCopy(targetdir, path);
-        for (index = 0; index < 3; index++)
-            path[index] += crandom() * 0.1;
+        for (offset = 0; offset < 3; offset++)
+            path[offset] += crandom() * 0.1;
         VectorNormalize(path);
         fire_rocket(ent, start, path, 600, speed, 600, 600);
         speed -= step;
     }
+
+    // Check if the player has enough ammo
+    ent->client->pers.inventory[index] -= ammo;
     gi.cprintf(ent, PRINT_HIGH, "Airstrike is dropping %d bombs, now.\n", rockets);
 }
 
