@@ -2100,10 +2100,10 @@ void Cluster_Explode (edict_t *ent)
     VectorSet(grenade4,-10.0-random()*5.0,-10.0-random()*5.0,30.0+random()*10.0);
 
     // Sean : explode the four grenades outwards
-    fire_grenade2(ent->owner, origin, grenade1, 120, 10, 1.0+random()*1.0, 120, false);
-    fire_grenade2(ent->owner, origin, grenade2, 120, 10, 1.0+random()*1.0, 120, false);
-    fire_grenade2(ent->owner, origin, grenade3, 120, 10, 1.0+random()*1.0, 120, false);
-    fire_grenade2(ent->owner, origin, grenade4, 120, 10, 1.0+random()*1.0, 120, false);
+    fire_grenade2(ent->owner, origin, grenade1, 120, 10, 1.0, 120, false);
+    fire_grenade2(ent->owner, origin, grenade2, 120, 10, 1.0, 120, false);
+    fire_grenade2(ent->owner, origin, grenade3, 120, 10, 1.0, 120, false);
+    fire_grenade2(ent->owner, origin, grenade4, 120, 10, 1.0, 120, false);
 
 	G_FreeEdict (ent);
 }
