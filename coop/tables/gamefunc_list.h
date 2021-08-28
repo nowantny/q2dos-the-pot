@@ -1,3 +1,6 @@
+#ifndef HEADER_1CE299026E91108A
+#define HEADER_1CE299026E91108A
+
 {"Action_Push", (byte *)Action_Push},
 {"push_hit", (byte *)push_hit},
 {"Weapon_A2k", (byte *)Weapon_A2k},
@@ -1266,6 +1269,7 @@
 {"Weapon_PlasmaRifle", (byte *)Weapon_PlasmaRifle},
 {"hook_laser_think", (byte *)hook_laser_think},
 {"hook_reset", (byte *)hook_reset},
+{"hook_cond_reset_think", (byte *)hook_cond_reset_think},
 {"hook_service", (byte *)hook_service},
 {"hook_track", (byte *)hook_track},
 {"hook_touch", (byte *)hook_touch},
@@ -2149,3 +2153,5 @@
 {"Blinky_UpdateCameraThink", (byte *)Blinky_UpdateCameraThink},
 {"Blinky_RunRun", (byte *)Blinky_RunRun},
 {0, 0}
+#endif // header guard 
+

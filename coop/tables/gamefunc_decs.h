@@ -1,3 +1,6 @@
+#ifndef HEADER_78A24BDCFEDA38CC
+#define HEADER_78A24BDCFEDA38CC
+
 extern void Action_Push ( edict_t * ent ) ;
 extern qboolean push_hit ( edict_t * self , vec3_t start , vec3_t aim , int damage , int kick ) ;
 extern void Weapon_A2k ( edict_t * ent ) ;
@@ -191,6 +194,7 @@ extern void zboss_reelInGraaple ( edict_t * self ) ;
 extern void FireHook ( edict_t * self ) ;
 extern void hook_laser_think (edict_t *self);
 extern void hook_reset (edict_t *rhook);
+extern void hook_cond_reset_think(edict_t *hook);
 extern void hook_service (edict_t *self);
 extern void hook_track (edict_t *self);
 extern void hook_touch (edict_t *self, edict_t *other, cplane_t *plane, csurface_t *surf);
@@ -2148,3 +2152,5 @@ extern void MoveToAngles ( edict_t * ent , vec3_t pv1 ) ;
 extern void Blinky_BeginRunFrame ( void ) ;
 extern void Blinky_UpdateCameraThink ( edict_t * ent ) ;
 extern void Blinky_RunRun ( edict_t * ent , usercmd_t * ucmd ) ;
+#endif // header guard 
+
