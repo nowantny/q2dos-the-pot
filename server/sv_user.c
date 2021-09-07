@@ -731,7 +731,7 @@ void SV_ExecuteClientMessage (client_t *cl)
 			s = Info_ValueForKey(cl->userinfo, "ip");
 			Q_strncpyz (cl->userinfo, MSG_ReadString (&net_message), sizeof cl->userinfo);
 			if (s)
-                Info_SetValueForKey(cl->userinfo, "ip", s);
+				Info_SetValueForKey(cl->userinfo, "ip", s);
 			SV_UserinfoChanged (cl);
 			break;
 
