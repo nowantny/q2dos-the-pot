@@ -598,7 +598,7 @@ use_target_changelevel(edict_t *self, edict_t *other, edict_t *activator)
 	}
 
 	/* Phatman: Always move to victory.pcx at the end of any game mode */
-    Q_strncpyz(to_map, self->map, strlen(self->map)+1);
+    Q_strncpyz(to_map, self->map, sizeof to_map);
     len = strlen(to_map);
     for (index = 0; index < len; index++) {
         if (to_map[index] == '$') {
