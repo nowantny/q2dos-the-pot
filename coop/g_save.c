@@ -260,6 +260,8 @@ InitGame(void)
 	gi.cvar_setdescription("adminpass", "Administator password for special commands.  Not related to RCON.");
 	checkpoints_password = gi.cvar("checkpoints_password", "", 0);
 	gi.cvar_setdescription("checkpoints_password", "Password required to edit checkpoints.");
+	cycle_gamemode = gi.cvar("cycle_gamemode", "vanilla", 0);
+	gi.cvar_setdescription("cycle_gamemode", "Game mode to go to after the last game mode in the list has finished.");
 	vippass = gi.cvar("vippass", "", 0);
 	gi.cvar_setdescription("vippass", "VIP password for cheating and special commands.  Not related to RCON.");
 	gamedir = gi.cvar("gamedir", "", 0); /* FS: Coop: Added */

@@ -13,6 +13,60 @@
 
 void ED_CallSpawn(edict_t *ent);
 
+/* Phatman: Vanilla map list */
+const char* vanilla_map[] = {
+    /* Unit 1 */
+    "base1",
+    "base2",
+    "base3",
+    "train",
+    /* Unit 2 */
+    "bunk1",
+    "ware1",
+    "ware2",
+    /* Unit 3 */
+    "jail1",
+    "jail2",
+    "jail3",
+    "jail4",
+    "jail5",
+    "security",
+    /* Unit 4 */
+    "mintro",
+    "mine1",
+    "mine2",
+    "mine3",
+    "mine4",
+    /* Unit 5 */
+    "fact1",
+    "fact2",
+    "fact3",
+    /* Unit 6 */
+    "power1",
+    "power2",
+    "cool1",
+    "waste1",
+    "waste2",
+    "waste3",
+    /* Unit 7 */
+    "biggun",
+    /* Unit 8 */
+    "hanger1",
+    "space",
+    "lab",
+    "hanger2",
+    "command",
+    "strike",
+    /* Unit 9 */
+    "city1",
+    "city2",
+    "city3",
+    /* Unit 10 */
+    "boss1",
+    "boss2",
+    0 /* Must be last */
+};
+
 /*
  * QUAKED target_temp_entity (1 0 0) (-8 -8 -8) (8 8 8)
  *
@@ -484,6 +538,9 @@ float Coop_Players_In_Range(edict_t *activator) /* FS: Get player distance so we
 void
 use_target_changelevel(edict_t *self, edict_t *other, edict_t *activator)
 {
+    char to_map[64];
+    int index, len;
+
 	if (!self || !other  || !activator)
 	{
 		return;
@@ -539,6 +596,30 @@ use_target_changelevel(edict_t *self, edict_t *other, edict_t *activator)
 					activator->client->pers.netname);
 		}
 	}
+
+	/* Phatman: Always move to victory.pcx at the end of any game mode */
+    Q_strncpyz(to_map, self->map, strlen(self->map)+1);
+    len = strlen(to_map);
+    for (index = 0; index < len; index++) {
+        if (to_map[index] == '$') {
+            to_map[index] = '\0';
+            break;
+        }
+    }
+    len = strlen(to_map);
+    for (index = 0; index < len; index++) {
+        if (to_map[index] == '*') {
+            Q_strncpyz(to_map, to_map+index+1, len-index+1);
+            break;
+        }
+    }
+    for (index = 0; vanilla_map[index]; index++) {
+        if (!Q_stricmp(to_map, vanilla_map[index])
+        && Q_stricmp(sv_coop_gamemode->string, "vanilla")) {
+            self->map = "victory.pcx";
+            break;
+        }
+    }
 
 	/* if going to a new unit, clear cross triggers */
 	if (self->map && strchr(self->map, '*'))

@@ -103,7 +103,7 @@ void SP_misc_blackhole(edict_t *self);
 void SP_misc_eastertank(edict_t *self);
 void SP_misc_easterchick(edict_t *self);
 void SP_misc_easterchick2(edict_t *self);
-void SP_misc_teleporter_offworld (edict_t *self);	
+void SP_misc_teleporter_offworld (edict_t *self);
 
 void SP_monster_berserk(edict_t *self);
 void SP_monster_gladiator(edict_t *self);
@@ -320,7 +320,7 @@ spawn_t spawns[] = {
 	{"misc_amb4", SP_misc_amb4}, /* FS: Coop: Xatrix specific */
 	{"misc_transport", SP_misc_transport}, /* FS: Coop: Xatrix specific */
 	{"misc_nuke", SP_misc_nuke}, /* FS: Coop: Xatrix specific */
-	
+
 	{"monster_berserk", SP_monster_berserk},
 	{"monster_gladiator", SP_monster_gladiator},
 	{"monster_gunner", SP_monster_gunner},
@@ -354,7 +354,7 @@ spawn_t spawns[] = {
 	{"monster_chick_heat", SP_monster_chick_heat}, /* FS: Coop: Xatrix specific */
 	{"monster_gladb", SP_monster_gladb}, /* FS: Coop: Xatrix specific */
 	{"monster_boss5", SP_monster_boss5}, /* FS: Coop: Xatrix specific */
-	
+
 	{"turret_breach", SP_turret_breach},
 	{"turret_base", SP_turret_base},
 	{"turret_driver", SP_turret_driver},
@@ -408,7 +408,7 @@ spawn_t spawns[] = {
 	{"monster_handler", SP_monster_handler}, /* FS: Zaero specific game dll changes */
 	{"misc_commdish", SP_misc_commdish}, /* FS: Zaero specific game dll changes */
 
-// mirror level's 
+// mirror level's
 	{"load_mirrorlevel", SP_load_mirrorlevel}, /* FS: Zaero specific game dll changes */
 
 	{"misc_crate", SP_misc_crate}, /* FS: Zaero specific game dll changes */
@@ -1468,15 +1468,15 @@ SP_worldspawn(edict_t *ent)
 		gi.imageindex ("w_sonic");
 		gi.modelindex ("models/weapons/g_sonic/tris.md2");
 		gi.modelindex ("models/weapons/v_sonic/tris.md2");
-		gi.soundindex ("weapons/sonic/sc_warm.wav"); 
-		gi.soundindex ("weapons/sonic/sc_cool.wav"); 
+		gi.soundindex ("weapons/sonic/sc_warm.wav");
+		gi.soundindex ("weapons/sonic/sc_cool.wav");
 		gi.soundindex ("weapons/sonic/sc_fire.wav");
 		gi.imageindex ("w_sniper");
 		gi.modelindex ("models/weapons/g_sniper/tris.md2");
 		gi.modelindex ("models/weapons/v_sniper/tris.md2");
-		gi.modelindex ("models/weapons/v_sniper/scope/tris.md2"); 
-		gi.modelindex ("models/weapons/v_sniper/dmscope/tris.md2"); 
-		gi.soundindex ("weapons/sniper/beep.wav"); 
+		gi.modelindex ("models/weapons/v_sniper/scope/tris.md2");
+		gi.modelindex ("models/weapons/v_sniper/dmscope/tris.md2");
+		gi.soundindex ("weapons/sniper/beep.wav");
 		gi.soundindex ("weapons/sniper/fire.wav");
 	}
 
@@ -2238,27 +2238,31 @@ int G_SpawnCheckpoints (edict_t *ent)
 
 void G_CheckCoopVictory (void) /* FS: Coop: Check if victory.pcx is the current map, workaround the "gamemap" crap in sv_init.c */
 {
+    int index, offset, count;
+    char mapname[32];
+    char nextserver[64];
 	if(!Q_stricmp("victory.pcx", level.mapname))
 	{
-		switch (game.gametype)
-		{
-			default:
-			case vanilla_coop:
-				gi.cvar_forceset("sv_coop_gamemode", "xatrix");
-				gi.cvar_forceset("sv_coop_gamemode_vote", "xatrix");
-				gi.cvar_forceset("nextserver", "map \"xswamp\"\n");
+        /* Phatman: Go to next game mode or game mode specified by cycle_gamemode if at last one */
+        count = CoopGamemodeCount();
+        for (index = 0; index < count; index++) {
+            if (!Q_stricmp(sv_coop_gamemode->string, gamemode_array[index].gamemode)) {
+                if (index+1 < count) {
+                    offset = index+1;
+                } else {
+                    for (offset = 0; offset < count; offset++)
+                        if (!Q_stricmp(cycle_gamemode->string, gamemode_array[offset].gamemode))
+                            break;
+                    if (offset == count)
+                        offset = 0; /* Fallback to vanilla if we don't find cycle_gamemode */
+                }
+                COM_StripExtension (gamemode_array[offset].mapname, mapname);
+                Com_sprintf (nextserver, sizeof nextserver, "map \"%s\"", mapname);
+                gi.cvar_forceset ("sv_coop_gamemode", gamemode_array[offset].gamemode);
+                gi.cvar_forceset ("sv_coop_gamemode_vote", gamemode_array[offset].gamemode);
+				gi.cvar_forceset ("nextserver", nextserver);
 				break;
-			case xatrix_coop:
-				gi.cvar_forceset("sv_coop_gamemode", "rogue");
-				gi.cvar_forceset("sv_coop_gamemode_vote", "rogue");
-				gi.cvar_forceset("nextserver", "map \"rmine1\"\n");
-				break;
-			case rogue_coop:
-			case zaero_coop:
-				gi.cvar_forceset("sv_coop_gamemode", "vanilla");
-				gi.cvar_forceset("sv_coop_gamemode_vote", "vanilla");
-				gi.cvar_forceset("nextserver", "map \"base1\"\n");
-				break;
-		}
-	}
+            }
+        }
+    }
 }

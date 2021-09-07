@@ -66,7 +66,6 @@ void CoopGamemodeAdd (const char *gamemode, const char *realgamemode, const char
 void CoopVoteGamemodeDynamic(edict_t *ent, pmenuhnd_t *p /* unused */);
 
 extern void VoteMenuOpen(edict_t *ent);
-/*-----------------------------------------------------------------------*/
 
 pmenu_t creditsmenu[] = {
 	{"*Quake II", PMENU_ALIGN_CENTER, NULL},
@@ -1516,9 +1515,11 @@ void CoopGamemodeInit (void)
 	memset(gamemode_array, 0, sizeof(gamemode_t)*MAX_GAMEMODES);
 
 	CoopGamemodeAdd("vanilla", "vanilla", "base1.bsp");
+	/*
 	CoopGamemodeAdd("xatrix", "xatrix", "xswamp.bsp");
 	CoopGamemodeAdd("rogue", "rogue", "rmine1.bsp");
 	CoopGamemodeAdd("zaero", "zaero", "zbase1.bsp");
+	*/
 
 	if(sv_coop_maplist->string[0] == 0)
 	{
@@ -1632,6 +1633,11 @@ void CoopGamemodeAdd (const char *gamemode, const char *realgamemode, const char
 
 	gamemode_index++;
 	gamemodeCount++;
+}
+
+int CoopGamemodeCount ()
+{
+    return gamemodeCount;
 }
 
 void CoopVoteGamemodeDynamic(edict_t *ent, pmenuhnd_t *p /* unused */)
