@@ -227,8 +227,8 @@ void SP_misc_teleporter_offworld (edict_t *ent)
 	trig->classname = "trigger_multiple";
 
 	VectorCopy (ent->s.origin, trig->s.origin);
-	VectorSet (trig->mins, -50, -50, 8);	// boundaries for the touch planes
-	VectorSet (trig->maxs, 50, 50, 24);
+	VectorSet (trig->mins, -75, -75, 8);	// boundaries for the touch planes
+	VectorSet (trig->maxs, 75, 75, 24);
 /*
 	VectorSet (trig->mins, -120, -120, 8);	// boundaries for the touch planes
 	VectorSet (trig->maxs, 120, 120, 24);
