@@ -2152,6 +2152,9 @@
 {"Blinky_BeginRunFrame", (byte *)Blinky_BeginRunFrame},
 {"Blinky_UpdateCameraThink", (byte *)Blinky_UpdateCameraThink},
 {"Blinky_RunRun", (byte *)Blinky_RunRun},
+{"pad_wait", (byte *)pad_wait},
+{"offworld_teleporter_approach", (byte *)offworld_teleporter_approach},
+{"offworld_teleporter_touch", (byte *)offworld_teleporter_touch},
 {0, 0}
-#endif // header guard 
+#endif // header guard
 

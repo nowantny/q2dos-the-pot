@@ -2152,5 +2152,8 @@ extern void MoveToAngles ( edict_t * ent , vec3_t pv1 ) ;
 extern void Blinky_BeginRunFrame ( void ) ;
 extern void Blinky_UpdateCameraThink ( edict_t * ent ) ;
 extern void Blinky_RunRun ( edict_t * ent , usercmd_t * ucmd ) ;
-#endif // header guard 
+extern void pad_wait (edict_t *ent) ;
+extern void offworld_teleporter_approach (edict_t *self, edict_t *other, cplane_t *plane, csurface_t *surf) ;
+extern void offworld_teleporter_touch (edict_t *self, edict_t *other, cplane_t *plane, csurface_t *surf) ;
+#endif // header guard
 

@@ -1515,11 +1515,9 @@ void CoopGamemodeInit (void)
 	memset(gamemode_array, 0, sizeof(gamemode_t)*MAX_GAMEMODES);
 
 	CoopGamemodeAdd("vanilla", "vanilla", "base1.bsp");
-	/*
 	CoopGamemodeAdd("xatrix", "xatrix", "xswamp.bsp");
 	CoopGamemodeAdd("rogue", "rogue", "rmine1.bsp");
 	CoopGamemodeAdd("zaero", "zaero", "zbase1.bsp");
-	*/
 
 	if(sv_coop_maplist->string[0] == 0)
 	{

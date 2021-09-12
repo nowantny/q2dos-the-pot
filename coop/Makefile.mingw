@@ -3,7 +3,8 @@ CFLAGS = -m32 -w -O2 -fno-strict-aliasing -fomit-frame-pointer
 CPPFLAGS = -Did386=1 -DNDEBUG
 LDFLAGS = -m32 -shared -Wl,--enable-auto-image-base -Wl,--no-undefined
 
-GAME = dm_ball.o \
+GAME = intro.o \
+	dm_ball.o \
 	dm_tag.o \
 	g_ai.o \
 	g_chase.o \

@@ -1,4 +1,5 @@
 #include "g_local.h"
+#include "intro.h"
 
 /*
 ======================================================================
@@ -11,6 +12,9 @@ INTERMISSION
 void
 MoveClientToIntermission(edict_t *ent)
 {
+	//RAV
+	char song[80];
+
 	if (!ent)
 	{
 		return;
@@ -67,6 +71,15 @@ MoveClientToIntermission(edict_t *ent)
 		DeathmatchScoreboardMessage(ent, NULL);
 		gi.unicast(ent, true);
 	}
+	//RAV
+	if(wavs->value)
+	{
+		Com_sprintf(song, sizeof(song), songtoplay->string);
+		gi.sound (ent, CHAN_ITEM, gi.soundindex (song), 1, ATTN_NORM, 0);
+		gi.WriteByte (svc_stufftext);
+		gi.WriteString (va("play %s\n", song));
+		gi.unicast(ent, true);
+	}
 }
 
 void
@@ -83,6 +96,21 @@ BeginIntermission(edict_t *targ)
 	if (level.intermissiontime)
 	{
 		return; /* already activated */
+	}
+
+	//RAV WAVMOD
+	if (use_song_file->value)
+	{
+		char *nextwav;
+		char sound[MAX_QPATH];
+
+		if ((nextwav = Wav_Mod_Next()) != NULL)
+		{
+			gi.cvar_set("wav", nextwav);
+			//set up the songtoplay cvar
+			Com_sprintf(sound, sizeof sound, "misc/%s.wav", nextwav);
+			gi.cvar_set("song", sound);
+		}
 	}
 
 	game.autosaved = false;
@@ -136,14 +164,6 @@ BeginIntermission(edict_t *targ)
 					}
 				}
 			}
-		}
-	}
-	else
-	{
-		if (!deathmatch->intValue)
-		{
-			level.exitintermission = 1; /* go immediately to the next level */
-			return;
 		}
 	}
 

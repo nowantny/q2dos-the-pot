@@ -4,7 +4,8 @@ CFLAGS+= -ffast-math
 CPPFLAGS = -DNDEBUG
 LDFLAGS = -m64 -shared -Wl,--enable-auto-image-base -Wl,--no-undefined
 
-GAME = dm_ball.o \
+GAME = intro.o \
+	dm_ball.o \
 	dm_tag.o \
 	g_ai.o \
 	g_chase.o \

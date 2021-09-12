@@ -791,6 +791,7 @@ extern	cvar_t	*sv_spawn_protection_time; /* FS: Coop: Spawn protection */
 extern	cvar_t	*motd; /* FS: Coop: Added */
 extern	cvar_t	*adminpass; /* FS: Coop: Admin goodies */
 extern  cvar_t  *checkpoints_password; /* Phatman: Coop: Password to edit checkpoints */
+extern  cvar_t  *home_gamemode; /* Phatman: Coop: Go to this game mode after any game mode has finished */
 extern  cvar_t  *cycle_gamemode; /* Phatman: Coop: Game mode to go to after the final one */
 extern	cvar_t	*vippass; /* FS: Coop: VIP goodies */
 extern	cvar_t	*gamedir; /* FS: Coop: Added */

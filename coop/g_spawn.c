@@ -1,5 +1,5 @@
-
 #include "g_local.h"
+#include "intro.h"
 
 #define LEG_WAIT_TIME 1 /* FS: Coop: Rogue specific */
 #define MAX_LEGSFRAME 23 /* FS: Coop: Rogue specific */
@@ -1378,6 +1378,8 @@ SP_worldspawn(edict_t *ent)
 		gi.cvar_set("sv_gravity", st.gravity);
 	}
 
+	PrecacheSongs(); /* Phatman */
+
 	snd_fry = gi.soundindex("player/fry.wav"); /* standing in lava / slime */
 
 	PrecacheItem(FindItem("Blaster"));
@@ -2238,31 +2240,42 @@ int G_SpawnCheckpoints (edict_t *ent)
 
 void G_CheckCoopVictory (void) /* FS: Coop: Check if victory.pcx is the current map, workaround the "gamemap" crap in sv_init.c */
 {
-    int index, offset, count;
+    int index, count, nextmode;
     char mapname[32];
     char nextserver[64];
 	if(!Q_stricmp("victory.pcx", level.mapname))
 	{
-        /* Phatman: Go to next game mode or game mode specified by cycle_gamemode if at last one */
+        /* Phatman: Game mode switching algorithm */
         count = CoopGamemodeCount();
-        for (index = 0; index < count; index++) {
-            if (!Q_stricmp(sv_coop_gamemode->string, gamemode_array[index].gamemode)) {
-                if (index+1 < count) {
-                    offset = index+1;
-                } else {
-                    for (offset = 0; offset < count; offset++)
-                        if (!Q_stricmp(cycle_gamemode->string, gamemode_array[offset].gamemode))
-                            break;
-                    if (offset == count)
-                        offset = 0; /* Fallback to vanilla if we don't find cycle_gamemode */
-                }
-                COM_StripExtension (gamemode_array[offset].mapname, mapname);
-                Com_sprintf (nextserver, sizeof nextserver, "map \"%s\"", mapname);
-                gi.cvar_forceset ("sv_coop_gamemode", gamemode_array[offset].gamemode);
-                gi.cvar_forceset ("sv_coop_gamemode_vote", gamemode_array[offset].gamemode);
-				gi.cvar_forceset ("nextserver", nextserver);
+		/* Go to home_gamemode after any game mode unless it is blank or was not found */
+		for (index = 0; index < count; index++) {
+			if (!Q_stricmp(home_gamemode->string, gamemode_array[index].gamemode)) {
+				nextmode = index;
 				break;
-            }
-        }
+			}
+		}
+		/* If home_gamemode is not found go to next game mode */
+		if (index >= count) {
+			for (index = 0; index < count; index++) {
+				if (!Q_stricmp(sv_coop_gamemode->string, gamemode_array[index].gamemode)) {
+					if (index+1 < count) {
+						nextmode = index+1;
+					} else {
+						/* If at last game mode in the list go to game mode specified by cycle_gamemode */
+						for (nextmode = 0; nextmode < count; nextmode++)
+							if (!Q_stricmp(cycle_gamemode->string, gamemode_array[nextmode].gamemode))
+								break;
+						if (nextmode >= count)
+							nextmode = 0; /* Fallback to vanilla if we don't find cycle_gamemode */
+					}
+					break;
+				}
+			}
+		}
+		COM_StripExtension (gamemode_array[nextmode].mapname, mapname);
+		Com_sprintf (nextserver, sizeof nextserver, "map \"%s\"", mapname);
+		gi.cvar_forceset ("sv_coop_gamemode", gamemode_array[nextmode].gamemode);
+		gi.cvar_forceset ("sv_coop_gamemode_vote", gamemode_array[nextmode].gamemode);
+		gi.cvar_forceset ("nextserver", nextserver);
     }
 }

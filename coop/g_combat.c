@@ -158,7 +158,7 @@ char *GetProperMonsterName (char *monsterName) /* FS: Coop: Get proper name for 
 		return "Hornet";
 	else if(!strcmp("monster_jorg", monsterName))
 		return "Jorg";
-	else if(!strcmp("makron", monsterName))
+	else if(!strcmp("makron", monsterName) || !strcmp("noclass", monsterName))
 		return "Makron";
 	else if(!strcmp("misc_insane", monsterName))
 		return "Prisoner";
@@ -605,7 +605,7 @@ CheckPowerArmor(edict_t *ent, vec3_t point, vec3_t normal, int damage,
 	{
 		return 0;
 	}
-  
+
 	if (client)
 	{
 		power_armor_type = PowerArmorType(ent);
@@ -963,7 +963,7 @@ M_ReactToDamage(edict_t *targ, edict_t *attacker, edict_t *inflictor)
 		(strcmp(attacker->classname, "monster_tank") != 0) &&
 		(strcmp(attacker->classname, "monster_supertank") != 0) &&
 		(strcmp(attacker->classname, "monster_makron") != 0) &&
-		(strcmp(attacker->classname, "monster_jorg") != 0) && 
+		(strcmp(attacker->classname, "monster_jorg") != 0) &&
 		!(attacker->monsterinfo.aiflags & AI_IGNORE_SHOTS) && /* FS: Coop: Rogue specific */
 		!(targ->monsterinfo.aiflags & AI_IGNORE_SHOTS) && /* FS: Coop: Rogue specific */
 		(!(attacker->mteam && targ->mteam && strcmp(attacker->mteam, targ->mteam) == 0))) /* FS: Zaero specific: Added monster team edict */

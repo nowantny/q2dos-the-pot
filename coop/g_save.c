@@ -27,6 +27,7 @@
  */
 
 #include "g_local.h"
+#include "intro.h"
 
 /*
  * This is the Quake 2 savegame system, fixed by Yamagi
@@ -260,7 +261,9 @@ InitGame(void)
 	gi.cvar_setdescription("adminpass", "Administator password for special commands.  Not related to RCON.");
 	checkpoints_password = gi.cvar("checkpoints_password", "", 0);
 	gi.cvar_setdescription("checkpoints_password", "Password required to edit checkpoints.");
-	cycle_gamemode = gi.cvar("cycle_gamemode", "vanilla", 0);
+	home_gamemode = gi.cvar("home_gamemode", "", 0);
+	gi.cvar_setdescription("home_gamemode", "Go to this game mode after any game mode has finished.");
+	cycle_gamemode = gi.cvar("cycle_gamemode", "", 0);
 	gi.cvar_setdescription("cycle_gamemode", "Game mode to go to after the last game mode in the list has finished.");
 	vippass = gi.cvar("vippass", "", 0);
 	gi.cvar_setdescription("vippass", "VIP password for cheating and special commands.  Not related to RCON.");
@@ -336,6 +339,8 @@ InitGame(void)
 
 	gi.dprintf(DEVELOPER_MSG_GAME, "Gamemode is %s\n", sv_coop_gamemode_vote->string);
 	gi.cvar_forceset("sv_coop_gamemode", sv_coop_gamemode_vote->string);
+
+	Wav_Mod_Setup(); /* Phatman */
 
 	/* items */
 	InitItems ();
@@ -561,7 +566,7 @@ WriteField1(FILE *f /* unused */, field_t *field, byte *base)
 					z = 5/i;
 #endif
 #endif
-					/* Phatman: April 18 2021 */
+					/* Phatman */
 					gi.dprintf(DEVELOPER_MSG_SAVE, "Field: %s\n", field->name);
 
 					gi.error ("WriteField1: function not in list, can't save game");
@@ -817,7 +822,7 @@ WriteClient(FILE *f, gclient_t *client)
 	/* all of the ints, floats, and vectors stay as they are */
 	temp = *client;
 
-	/* Phatman: April 18 2021 */
+	/* Phatman */
 	gi.dprintf(DEVELOPER_MSG_SAVE, "WriteClient %s\n", client->pers.netname);
 
 	/* change the pointers to indexes */
@@ -1002,7 +1007,7 @@ WriteEdict(FILE *f, edict_t *ent)
 	/* all of the ints, floats, and vectors stay as they are */
 	temp = *ent;
 
-	/* Phatman: April 18 2021 */
+	/* Phatman */
 	gi.dprintf(DEVELOPER_MSG_SAVE, "WriteEdict %s\n", ent->classname);
 
 	/* change the pointers to lengths or indexes */
@@ -1035,7 +1040,7 @@ WriteLevelLocals(FILE *f)
 	/* all of the ints, floats, and vectors stay as they are */
 	temp = level;
 
-	/* Phatman: April 18 2021 */
+	/* Phatman */
 	gi.dprintf(DEVELOPER_MSG_SAVE, "WriteLevelLocals %s\n", level.mapname);
 
 	/* change the pointers to lengths or indexes */

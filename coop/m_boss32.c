@@ -820,14 +820,12 @@ makron_torso(edict_t *ent)
 	}
 
 	ent->movetype = MOVETYPE_NONE;
-	ent->solid = SOLID_NOT;
-	VectorSet(ent->mins, -8, -8, 0);
-	VectorSet(ent->maxs, 8, 8, 8);
 	ent->s.frame = 346;
 	ent->s.modelindex = gi.modelindex("models/monsters/boss3/rider/tris.md2");
 	ent->think = makron_torso_think;
 	ent->nextthink = level.time + 2 * FRAMETIME;
 	ent->s.sound = gi.soundindex("makron/spine.wav");
+	ent->monsterinfo.currentmove = NULL;
 	gi.linkentity(ent);
 }
 
@@ -867,12 +865,12 @@ makron_die(edict_t *self, edict_t *inflictor /* update */, edict_t *attacker /* 
 	{
 		gi.sound(self, CHAN_VOICE, gi.soundindex("misc/udeath.wav"), 1, ATTN_NORM, 0);
 
-//		for (n = 0; n < 1 /*4*/; n++)
+		for (n = 0; n < 6; n++)
 		{
 			ThrowGib(self, "models/objects/gibs/sm_meat/tris.md2", damage, GIB_ORGANIC);
 		}
 
-		for (n = 0; n < 4; n++)
+		for (n = 0; n < 6; n++)
 		{
 			ThrowGib(self, "models/objects/gibs/sm_metal/tris.md2", damage, GIB_METALLIC);
 		}
@@ -893,6 +891,9 @@ makron_die(edict_t *self, edict_t *inflictor /* update */, edict_t *attacker /* 
 	self->takedamage = DAMAGE_YES;
 
 	tempent = G_Spawn();
+	n = tempent->s.number;
+	memcpy(tempent, self, sizeof(edict_t));
+	tempent->s.number = n;
 	VectorCopy(self->s.origin, tempent->s.origin);
 	VectorCopy(self->s.angles, tempent->s.angles);
 	tempent->s.origin[1] -= 84;
@@ -1062,7 +1063,7 @@ SP_monster_makron(edict_t *self)
 	VectorSet(self->maxs, 30, 30, 90);
 
 	self->health = 3000;
-	self->gib_health = -2000;
+	self->gib_health = -900;
 	self->mass = 500;
 
 	self->pain = makron_pain;

@@ -2659,10 +2659,6 @@ ClientCommand(edict_t *ent)
 			gi.unicast(ent, true);
 		}
 	}
-	else if ((Q_stricmp(cmd, "push") == 0) || (Q_stricmp(cmd,"pull") == 0))
-	{
-		/* FS: Purposely do nothing.  This somehow got in my cfgs, and some other users.  I see this happen to people during vid_restarts and vid_restarts are firing off mwheelup and mwheeldown for some reason... */
-	}
 	else if (Q_stricmp (cmd, "hook") == 0)
     {
         hook_fire (ent);
@@ -2678,9 +2674,6 @@ ClientCommand(edict_t *ent)
             Radio_f(ent, "ALL", gi.argv(1));
 	else if (Q_stricmp (cmd, "play_voice") == 0 && !ent->client->resp.spectator)  // Talk to Everyone within a Earshot
             Radio_f(ent, "ROOM", gi.argv(1));
-	else /* anything that doesn't match a command will be a chat */
-	{
-		Cmd_Say_f(ent, false, true);
-	}
+	else
+		gi.cprintf(ent, PRINT_HIGH, "Unknown command '%s'\n", cmd);
 }
-
