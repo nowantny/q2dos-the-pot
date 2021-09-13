@@ -340,11 +340,11 @@ SP_info_player_coop(edict_t *self)
 		G_FreeEdict(self);
 		return;
 	}
-	
+
 	/* Entity number 292 is an unnamed info_player_start
 	   next to a named info_player_start. Delete it, if
 	   we're in coop since it screws up the spawnpoint
-	   selection heuristic in SelectCoopSpawnPoint(). 
+	   selection heuristic in SelectCoopSpawnPoint().
 	   This unnamed info_player_start is selected as
 	   spawnpoint for player 0, therefor none of the
 	   named info_coop_start() matches... */
@@ -2187,10 +2187,13 @@ spectator_respawn(edict_t *ent)
 			return;
 		}
 
-		if (coop->intValue) /* FS: Coop: Spawn a backpack with our stuff */
+		/* FS: Coop: Spawn a backpack with our stuff */
+		/* Phatman: Coop: This allowed players to leave backpacks everywhere...
+		if (coop->intValue)
 		{
 			Spawn_CoopBackpack(ent);
 		}
+		*/
 	}
 	else
 	{
@@ -2339,7 +2342,7 @@ PutClientInServer(edict_t *ent)
 		char		userinfo[MAX_INFO_STRING];
 
 		int health = client->pers.health;
-		
+
 		memcpy (userinfo, client->pers.userinfo, sizeof(userinfo));
 		InitClientPersistant(client);
 		ClientUserinfoChanged (ent, userinfo);
@@ -2640,8 +2643,8 @@ ClientBegin(edict_t *ent)
 	if (motd_file = fopen("motd.txt", "r"))
     {
 		if (motd_file = fopen("motd.txt", "r")) {
-                 
-                 if (fgets(motd, 8192, motd_file)) 
+
+                 if (fgets(motd, 8192, motd_file))
 				 {
                      while (fgets(line, 80, motd_file))
 					 {
@@ -2943,8 +2946,10 @@ ClientDisconnect(edict_t *ent)
 
 	Blinky_OnClientTerminate(ent); /* FS: Blinky's Coop Camera */
 
-	if (coop->intValue && !ent->client->pers.spectator) /* FS: Coop: Spawn a backpack with our stuff */
+	if (coop->intValue && !ent->client->pers.spectator && !level.intermissiontime)
 	{
+		/* FS: Coop: Spawn a backpack with our stuff */
+		/* Phatman: Coop: But not during intermissions */
 		Spawn_CoopBackpack(ent);
 	}
 
@@ -3131,13 +3136,13 @@ ClientThink(edict_t *ent, usercmd_t *ucmd)
 
 		if (client -> hook_state == HOOK_ON) {
     		client -> ps.pmove.gravity = 0;
-		} 
+		}
 		else
 		{
     		if (game.gametype == rogue_coop) /* FS: Coop: Rogue specific */
 			{
         		client -> ps.pmove.gravity = sv_gravity -> value * ent -> gravity;
-    		} 
+    		}
 			else
 			{
         		client -> ps.pmove.gravity = sv_gravity -> value;
