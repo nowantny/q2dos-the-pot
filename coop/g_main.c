@@ -594,6 +594,8 @@ void G_ResetTimer_Hack (void) /* FS: Some of the grossest shit of all time.  Res
 
 		level.framenum = 55; /* FS: Dont start at 0, advance it a bit */
 		level.time = level.framenum * FRAMETIME;
+		if (level.intermissiontime) /* Phatman: This fixes the issue when the intermission gets stuck after idling with no players */
+			level.intermissiontime = level.time;
 		lastgibframe = 0;
 
 		ent = &g_edicts[0];
