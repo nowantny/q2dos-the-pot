@@ -1191,6 +1191,10 @@ Cmd_Inven_f(edict_t *ent)
 
 	InventoryMessage(ent);
 	gi.unicast(ent, true);
+
+	/* Phatman: Scanner by Yaya */
+	if (cl->pers.scanner_active & 1)
+		cl->pers.scanner_active = 2;
 }
 
 void
@@ -1478,6 +1482,7 @@ Cmd_PutAway_f(edict_t *ent)
 	ent->client->showscores = false;
 	ent->client->showhelp = false;
 	ent->client->showinventory = false;
+	ent->client->pers.scanner_active = false; /* Phatman: Fixes the scanner preventing the escape menu thing */
 
 	if ((game.gametype == zaero_coop) && (ent->client->zCameraTrack)) /* FS: Zaero specific game dll changes */
 	{
@@ -2669,11 +2674,13 @@ ClientCommand(edict_t *ent)
             hook_reset(ent->client->hook);
     }
 	else if (Q_stricmp (cmd, "radio") == 0)  // Radio Toggle
-        	RadioToggle_f(ent);
+		RadioToggle_f(ent);
 	else if (Q_stricmp (cmd, "play_world") == 0 && !ent->client->resp.spectator)  // Radio to everybody
-            Radio_f(ent, "ALL", gi.argv(1));
+		Radio_f(ent, "ALL", gi.argv(1));
 	else if (Q_stricmp (cmd, "play_voice") == 0 && !ent->client->resp.spectator)  // Talk to Everyone within a Earshot
-            Radio_f(ent, "ROOM", gi.argv(1));
+		Radio_f(ent, "ROOM", gi.argv(1));
+	else if (Q_stricmp (cmd, "scanner") == 0) /* Phatman: Scanner by Yaya */
+		Toggle_Scanner (ent);
 	else
 		gi.cprintf(ent, PRINT_HIGH, "Unknown command '%s'\n", cmd);
 }

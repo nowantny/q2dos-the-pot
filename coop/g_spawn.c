@@ -1,5 +1,6 @@
 #include "g_local.h"
 #include "intro.h"
+#include "scanner.h"
 
 #define LEG_WAIT_TIME 1 /* FS: Coop: Rogue specific */
 #define MAX_LEGSFRAME 23 /* FS: Coop: Rogue specific */
@@ -1489,6 +1490,17 @@ SP_worldspawn(edict_t *ent)
 	gi.modelindex("models/objects/gibs/chest/tris.md2");
 	gi.modelindex("models/objects/gibs/skull/tris.md2");
 	gi.modelindex("models/objects/gibs/head2/tris.md2");
+
+	/* Phatman: Scanner by Yaya */
+	gi.imageindex (PIC_SCANNER);
+	gi.imageindex (PIC_DOT);
+	gi.imageindex (PIC_INVDOT);
+	gi.imageindex (PIC_QUADDOT);
+	gi.imageindex (PIC_UP);
+	gi.imageindex (PIC_DOWN);
+
+	/* Phatman: The-Pot logo for intermissions (etc..) */
+	gi.imageindex ("the-pot");
 
 	/* Setup light animation tables. 'a' is total darkness, 'z' is doublebright. */
 

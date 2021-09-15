@@ -1147,6 +1147,8 @@ player_die(edict_t *self, edict_t *inflictor, edict_t *attacker,
 		stopBlinkyCam(self);
 	}
 
+	ClearScanner(self->client);
+
 	VectorClear(self->avelocity);
 
 	self->takedamage = DAMAGE_YES;
@@ -1501,6 +1503,9 @@ InitClientCoopPersistant(edict_t *ent) /* FS: Coop: Give back some goodies on re
 	{
 		ent->flags |= FL_POWER_ARMOR;
 	}
+
+	/* Phatman: Scanner by Yaya */
+	ClearScanner(client);
 }
 
 void

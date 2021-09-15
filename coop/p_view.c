@@ -2,6 +2,7 @@
 #include "g_local.h"
 #include "p_hook.h"
 #include "m_player.h"
+#include "scanner.h"
 
 static edict_t *current_player;
 static gclient_t *current_client;
@@ -1584,8 +1585,9 @@ ClientEndServerFrame(edict_t *ent)
 	VectorClear(ent->client->kick_origin);
 	VectorClear(ent->client->kick_angles);
 
-	/* if the scoreboard is up, update it */
-	if (ent->client->showscores && !(level.framenum & 31))
+	/* Phatman: Scanner by Yaya */
+	if ((ent->client->showscores || ent->client->pers.scanner_active) && 
+		!(level.framenum & SCANNER_UPDATE_FREQ) || (ent->client->pers.scanner_active & 2))
 	{
 		if (ent->client->menu)
 		{
@@ -1608,6 +1610,7 @@ ClientEndServerFrame(edict_t *ent)
 			DeathmatchScoreboardMessage(ent, ent->enemy);
 		}
 		gi.unicast(ent, false);
+		ent->client->pers.scanner_active &= ~2;
 	}
 
 	/* this we want to do regardless */

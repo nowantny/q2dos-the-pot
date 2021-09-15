@@ -4,6 +4,7 @@ CPPFLAGS = -Did386=1 -DNDEBUG
 LDFLAGS = -m32 -shared -Wl,--enable-auto-image-base -Wl,--no-undefined
 
 GAME = intro.o \
+	scanner.o \
 	dm_ball.o \
 	dm_tag.o \
 	g_ai.o \

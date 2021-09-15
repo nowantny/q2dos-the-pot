@@ -1,6 +1,3 @@
-#ifndef HEADER_439236772DDB5FAC
-#define HEADER_439236772DDB5FAC
-
 // g_local.h -- local definitions for game module
 
 #ifndef COOP_LOCAL_H
@@ -1420,6 +1417,8 @@ typedef struct
 	qboolean	didMotd; /* FS: Coop: MOTD */
 	qboolean	noSummon; /* FS: Blinky Cam */
 
+	int			scanner_active; /* Phatman: Scanner tutorial by Yaya */
+
 //=========
 //ROGUE
 	int			max_tesla;
@@ -1880,5 +1879,3 @@ int  DBall_CheckDMRules (void);
 //int  Tag_ChangeDamage (edict_t *targ, edict_t *attacker, int damage);
 
 #endif /* COOP_LOCAL_H */
-#endif // header guard
-

@@ -9,11 +9,75 @@ INTERMISSION
 ======================================================================
 */
 
+/* Phatman: Coop: This posts the map summary during Coop intermissions */
+void
+MapSummaryMessage(edict_t *ent)
+{
+	char		string[1024];
+	int			i, j, y, total;
+	gclient_t	*cl, *swap, *clients[MAX_CLIENTS];
+	edict_t		*cl_ent;
+
+	if (!ent)
+	{
+		return;
+	}
+	/* send the layout */
+	Com_sprintf(string, sizeof(string),
+			"xv 125 yv 0 string2 \" THE-POT \" "
+			"xv 80 yv 0 picn the-pot "		/* logo */
+			"xv 87 yv 150 string2 \" Kills   : %i/%i \" "
+			"xv 87 yv 158 string2 \" Goals   : %i/%i \" "
+			"xv 87 yv 166 string2 \" Secrets : %i/%i \" "
+			"xv 87 yv 174 string2 \" Time    : %i \" ",
+			level.killed_monsters, level.total_monsters,
+			level.found_goals, level.total_goals,
+			level.found_secrets, level.total_secrets,
+			level.framenum / 600);
+
+	total = 0;
+	for (i = 0; i < game.maxclients; i++)
+	{
+		cl_ent = g_edicts + 1 + i;
+		cl = &game.clients[i];
+
+		if (!cl_ent->inuse || cl->resp.spectator)
+		{
+			continue;
+		}
+
+		for (j = 0; j < total; j++)
+		{
+			if (cl->resp.score > clients[j]->resp.score) 
+			{
+				memmove(clients + j + 1, clients + j, (total - j) * sizeof(gclient_t*));
+				clients[j] = cl;
+				break;
+			}
+		}
+		if (j >= total)
+			clients[total] = cl;
+		total++;
+	}
+	y = 190;
+	for (i = 0; i < total; i++)
+	{
+		Com_sprintf(string + strlen(string), sizeof(string) - strlen(string),
+			"xv 23 yv %d string2 \" %15s : %d Kills \" ",
+			y, clients[i]->pers.netname, clients[i]->resp.score);
+		y += 8;
+	}
+
+	gi.WriteByte(svc_layout);
+	gi.WriteString(string);
+	gi.unicast (ent, true); /* FS: Don't remove this DOS needs this! */
+}
+
 void
 MoveClientToIntermission(edict_t *ent)
 {
 	//RAV
-	char song[80];
+	char 		song[80];
 
 	if (!ent)
 	{
@@ -66,9 +130,14 @@ MoveClientToIntermission(edict_t *ent)
 	gi.linkentity(ent);
 
 	/* add the layout */
-	if (deathmatch->intValue || coop->intValue)
+	if (deathmatch->intValue)
 	{
 		DeathmatchScoreboardMessage(ent, NULL);
+		gi.unicast(ent, true);
+	} 
+	else if (coop->intValue)
+	{
+		MapSummaryMessage(ent);
 		gi.unicast(ent, true);
 	}
 	//RAV
@@ -235,85 +304,106 @@ DeathmatchScoreboardMessage(edict_t *ent, edict_t *killer /* can be NULL */)
 		return;
 	}
 
-	/* sort the clients by score */
-	total = 0;
-
-	for (i = 0; i < game.maxclients; i++)
+	/* Phatman: Scanner by Yaya */
+	if (ent->client->showscores || ent->client->showinventory)
+		if (ent->client->pers.scanner_active)
+			ent->client->pers.scanner_active = 2;
+	if (ent -> client -> showscores)
 	{
-		cl_ent = g_edicts + 1 + i;
+		/* sort the clients by score */
+		total = 0;
 
-		if (!cl_ent->inuse || game.clients[i].resp.spectator)
+		for (i = 0; i < game.maxclients; i++)
 		{
-			continue;
-		}
+			cl_ent = g_edicts + 1 + i;
 
-		score = game.clients[i].resp.score;
-
-		for (j = 0; j < total; j++)
-		{
-			if (score > sortedscores[j])
+			if (!cl_ent->inuse || game.clients[i].resp.spectator)
 			{
-				break;
+				continue;
 			}
-		}
 
-		for (k = total; k > j; k--)
-		{
-			sorted[k] = sorted[k - 1];
-			sortedscores[k] = sortedscores[k - 1];
-		}
+			score = game.clients[i].resp.score;
 
-		sorted[j] = i;
-		sortedscores[j] = score;
-		total++;
-	}
-
-	/* print level name and exit rules */
-	string[0] = 0;
-
-	stringlength = strlen(string);
-
-	/* add the clients in sorted order */
-	if (total > 12)
-	{
-		total = 12;
-	}
-
-	for (i = 0; i < total; i++)
-	{
-		cl = &game.clients[sorted[i]];
-		cl_ent = g_edicts + 1 + sorted[i];
-
-		x = (i >= 6) ? 160 : 0;
-		y = 32 + 32 * (i % 6);
-
-		/* add a dogtag */
-		if (cl_ent == ent)
-		{
-			tag = "tag1";
-		}
-		else if (cl_ent == killer)
-		{
-			tag = "tag2";
-		}
-		else
-		{
-			tag = NULL;
-		}
-
-		/* FS: Coop: Xatrix specific */
-		/* allow new DM games to override the tag picture */
-		if (gamerules && gamerules->intValue)
-		{
-			if (DMGame.DogTag)
+			for (j = 0; j < total; j++)
 			{
-				DMGame.DogTag(cl_ent, killer, &tag);
+				if (score > sortedscores[j])
+				{
+					break;
+				}
 			}
+
+			for (k = total; k > j; k--)
+			{
+				sorted[k] = sorted[k - 1];
+				sortedscores[k] = sortedscores[k - 1];
+			}
+
+			sorted[j] = i;
+			sortedscores[j] = score;
+			total++;
 		}
 
-		if (tag)
+		/* print level name and exit rules */
+		string[0] = 0;
+
+		stringlength = strlen(string);
+
+		/* add the clients in sorted order */
+		if (total > 12)
 		{
-			Com_sprintf(entry, sizeof(entry), "xv %i yv %i picn %s ", x + 32, y, tag);
+			total = 12;
+		}
+
+		for (i = 0; i < total; i++)
+		{
+			cl = &game.clients[sorted[i]];
+			cl_ent = g_edicts + 1 + sorted[i];
+
+			x = (i >= 6) ? 160 : 0;
+			y = 32 + 32 * (i % 6);
+
+			/* add a dogtag */
+			if (cl_ent == ent)
+			{
+				tag = "tag1";
+			}
+			else if (cl_ent == killer)
+			{
+				tag = "tag2";
+			}
+			else
+			{
+				tag = NULL;
+			}
+
+			/* FS: Coop: Xatrix specific */
+			/* allow new DM games to override the tag picture */
+			if (gamerules && gamerules->intValue)
+			{
+				if (DMGame.DogTag)
+				{
+					DMGame.DogTag(cl_ent, killer, &tag);
+				}
+			}
+
+			if (tag)
+			{
+				Com_sprintf(entry, sizeof(entry), "xv %i yv %i picn %s ", x + 32, y, tag);
+				j = strlen(entry);
+
+				if (stringlength + j > 1024)
+				{
+					break;
+				}
+
+				strcpy(string + stringlength, entry);
+				stringlength += j;
+			}
+
+			/* send the layout */
+			Com_sprintf(entry, sizeof(entry), "client %i %i %i %i %i %i ",
+					x, y, sorted[i], cl->resp.score, cl->ping,
+					(level.framenum - cl->resp.enterframe) / 600);
 			j = strlen(entry);
 
 			if (stringlength + j > 1024)
@@ -324,21 +414,14 @@ DeathmatchScoreboardMessage(edict_t *ent, edict_t *killer /* can be NULL */)
 			strcpy(string + stringlength, entry);
 			stringlength += j;
 		}
-
-		/* send the layout */
-		Com_sprintf(entry, sizeof(entry), "client %i %i %i %i %i %i ",
-				x, y, sorted[i], cl->resp.score, cl->ping,
-				(level.framenum - cl->resp.enterframe) / 600);
-		j = strlen(entry);
-
-		if (stringlength + j > 1024)
-		{
-			break;
-		}
-
-		strcpy(string + stringlength, entry);
-		stringlength += j;
+	} 
+	/* Phatman: Scanner by Yaya */
+	else
+	{
+		*string = 0;
 	}
+	if (ent->client->pers.scanner_active & 1)
+		ShowScanner(ent,string);
 
 	gi.WriteByte(svc_layout);
 	gi.WriteString(string);
@@ -612,7 +695,7 @@ G_SetStats(edict_t *ent)
 
 	if (deathmatch->intValue)
 	{
-		if ((ent->client->pers.health <= 0) || level.intermissiontime || ent->client->showscores)
+		if ((ent->client->pers.health <= 0) || level.intermissiontime || ent->client->showscores || ent->client->pers.scanner_active)
 		{
 			ent->client->ps.stats[STAT_LAYOUTS] |= 1;
 		}
@@ -624,7 +707,7 @@ G_SetStats(edict_t *ent)
 	}
 	else
 	{
-		if (ent->client->showscores || ent->client->showhelp)
+		if (ent->client->showscores || ent->client->showhelp || ent->client->pers.scanner_active)
 		{
 			ent->client->ps.stats[STAT_LAYOUTS] |= 1;
 		}
