@@ -51,7 +51,8 @@ void ShowScanner(edict_t *ent,char *layout)
 		player++;
 
 		// in use 
-		if (!player->inuse || !player->client || (player == ent) || (player -> health <= 0))
+		if (!player->inuse || !player->client || (player == ent)
+			|| game.clients[i].resp.spectator || (player -> health <= 0))
 			continue;
 
 		// calc player to enemy vector

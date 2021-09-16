@@ -4,7 +4,7 @@
 #define	SCANNER_UNIT                   32
 #define	SCANNER_RANGE                  100
 /* Phatman: Adjusted this due to oversize packet errors with some clients */
-#define	SCANNER_UPDATE_FREQ            5
+#define	SCANNER_UPDATE_FREQ            10
 #define	PIC_SCANNER                    "scanner/scanner"
 #define	PIC_DOT                        "scanner/dot"
 #define	PIC_ACIDDOT                    "scanner/aciddot"
