@@ -36,7 +36,7 @@ void ShowScanner(edict_t *ent,char *layout)
 	vec3_t	v;
 
 	// Main scanner graphic draw
-	/* Phatman: Bottom left of screen, per Stross */
+	/* Phatman: Bottom left of screen, per Strosspot */
 	Com_sprintf (stats, sizeof(stats),"xl 2 yb -162 picn %s ", PIC_SCANNER);
 	SAFE_STRCAT(layout,stats,LAYOUT_MAX_LENGTH);
 
@@ -88,7 +88,7 @@ void ShowScanner(edict_t *ent,char *layout)
 			VectorScale(dp,len*80/SCANNER_RANGE,dp);
 
 			// calc screen (x,y) (2 = half dot width)
-			/* Phatman: Bottom left of screen, per Stross */
+			/* Phatman: Bottom left of screen, per Strosspot */
 			sx = (82 + dp[1]) - 2;
 			sy = (-82 + dp[0]) - 2;
 
@@ -102,7 +102,7 @@ void ShowScanner(edict_t *ent,char *layout)
 				tag = PIC_INVDOT;
 
 			// Set output ...
-			/* Phatman: Bottom left of screen, per Stross */
+			/* Phatman: Bottom left of screen, per Strosspot */
 			Com_sprintf (stats, sizeof(stats),"xl %i yb %i picn %s ",
 					sx,
 					sy,
@@ -114,7 +114,7 @@ void ShowScanner(edict_t *ent,char *layout)
 			*stats = 0;
 
 			// set up/down arrow
-			/* Phatman: Bottom left of screen, per Stross */
+			/* Phatman: Bottom left of screen, per Strosspot */
 			if (hd < 0)
 				Com_sprintf (stats, sizeof(stats),"yb %i picn %s ",
 					sy - 5,PIC_UP);

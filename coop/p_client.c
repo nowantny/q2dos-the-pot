@@ -2560,9 +2560,6 @@ ClientBeginDeathmatch(edict_t *ent)
 void
 ClientBegin(edict_t *ent)
 {
-    FILE *motd_file;
-    char motd[8192];
-    char line[80];
 	int i;
 
 	if (!ent)
@@ -2608,13 +2605,9 @@ ClientBegin(edict_t *ent)
 		if(!ent->client->pers.didMotd) /* FS: Added */
 		{
 			if(maxclients->intValue <= 1)
-			{
 				ent->client->pers.didMotd = ent->client->resp.didMotd = true;
-			}
-			else
-			{
-				CoopOpenJoinMenu(ent);
-			}
+			else 
+				ent->client->showscores = true;
 		}
 		vote_connect(ent); /* FS: Added */
 	}
@@ -2637,29 +2630,15 @@ ClientBegin(edict_t *ent)
 		}
 	}
 
+	/* Phatman: Stuff the +hook alias to the client */
 	gi.WriteByte (11);
     gi.WriteString ("alias +hook \"cmd hook\"\n");
     gi.unicast(ent, true);
-
+	/* Phatman: Stuff the -hook alias to the client */
     gi.WriteByte (11);
     gi.WriteString ("alias -hook \"cmd unhook\"\n");
     gi.unicast(ent, true);
 
-	if (motd_file = fopen("motd.txt", "r"))
-    {
-		if (motd_file = fopen("motd.txt", "r")) {
-
-                 if (fgets(motd, 8192, motd_file))
-				 {
-                     while (fgets(line, 80, motd_file))
-					 {
-                         strcat(motd, line);
-					 }
-                     gi.centerprintf(ent, "%s", motd);
-                 }
-                 fclose(motd_file);
-             }
-	}
 	ent->client->pers.connected = true; /* FS: Fix for players command and q2admin commands */
 
 	/* make sure all view stuff is valid */

@@ -305,10 +305,27 @@ DeathmatchScoreboardMessage(edict_t *ent, edict_t *killer /* can be NULL */)
 	}
 
 	/* Phatman: Scanner by Yaya */
+	*string = 0;
 	if (ent->client->showscores || ent->client->showinventory)
 		if (ent->client->pers.scanner_active)
 			ent->client->pers.scanner_active = 2;
-	if (ent -> client -> showscores)
+	if (!ent->client->pers.didMotd)
+	{
+		if (level.framenum - ent->client->resp.enterframe < 100)
+		{
+			Com_sprintf(string, sizeof(string),
+				"xv 115 yv 5 string2 \" Welcome To \" "
+				"xv 80 yv 0 picn the-pot "
+				"xv 127 yv 140 string2 \" THE-POT \" "
+			);
+		}
+		else
+		{
+			ent->client->pers.didMotd = ent->client->resp.didMotd = true;
+			ent->client->showscores = 0;
+		}
+	}
+	else if (ent -> client -> showscores)
 	{
 		/* sort the clients by score */
 		total = 0;
@@ -415,12 +432,7 @@ DeathmatchScoreboardMessage(edict_t *ent, edict_t *killer /* can be NULL */)
 			stringlength += j;
 		}
 	} 
-	/* Phatman: Scanner by Yaya */
-	else
-	{
-		*string = 0;
-	}
-	if (ent->client->pers.scanner_active & 1)
+	else if (ent->client->pers.scanner_active & 1)
 		ShowScanner(ent,string);
 
 	gi.WriteByte(svc_layout);
