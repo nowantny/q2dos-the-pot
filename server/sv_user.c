@@ -729,12 +729,12 @@ void SV_ExecuteClientMessage (client_t *cl)
 
 		case clc_userinfo:
 			s = Info_ValueForKey(cl->userinfo, "ip");
-			Q_strncpyz (cl->userinfo, MSG_ReadString (&net_message), sizeof cl->userinfo);
+			strncpy (cl->userinfo, MSG_ReadString (&net_message), sizeof(cl->userinfo)-1);
 			if (s)
 				Info_SetValueForKey(cl->userinfo, "ip", s);
 			SV_UserinfoChanged (cl);
 			break;
-
+			
 		case clc_move:
 			if (move_issued)
 				return;		// someone is trying to cheat...
