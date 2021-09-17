@@ -613,13 +613,18 @@ use_target_changelevel(edict_t *self, edict_t *other, edict_t *activator)
             break;
         }
     }
-    for (index = 0; vanilla_map[index]; index++) {
-        if (!Q_stricmp(to_map, vanilla_map[index])
-        && Q_stricmp(sv_coop_gamemode->string, "vanilla")) {
-            self->map = "victory.pcx";
-            break;
-        }
-    }
+	if (!Q_stricmp(level.mapname, to_map)) {
+		/* Phatman: Move to victory.pcx if a map links back to itself */
+		self->map = "victory.pcx";
+	} else {
+		for (index = 0; vanilla_map[index]; index++) {
+			if (!Q_stricmp(to_map, vanilla_map[index])
+			&& Q_stricmp(sv_coop_gamemode->string, "vanilla")) {
+				self->map = "victory.pcx";
+				break;
+			}
+		}
+	}
 
 	/* if going to a new unit, clear cross triggers */
 	if (self->map && strchr(self->map, '*'))
