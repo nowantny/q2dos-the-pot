@@ -47,6 +47,7 @@ cvar_t *adminpass; /* FS: Coop: Admin goodies */
 cvar_t *checkpoints_password; /* Phatman: Coop: Password to edit checkpoints */
 cvar_t *home_gamemode; /* Phatman: Coop: Go to this game mode after any game mode has finished */
 cvar_t *cycle_gamemode; /* Phatman: Coop: Game mode to go to after the final one */
+cvar_t *victory_pcx; /* Phatman: Overrides victory.pcx */
 cvar_t *vippass; /* FS: Coop: VIP goodies */
 cvar_t *gamedir; /* FS: Coop: Added */
 cvar_t *nextserver; /* FS: Coop: Added */

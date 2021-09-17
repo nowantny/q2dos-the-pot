@@ -1501,6 +1501,8 @@ SP_worldspawn(edict_t *ent)
 
 	/* Phatman: The-Pot logo for intermissions (etc..) */
 	gi.imageindex ("the-pot");
+	if (strlen(victory_pcx->string))
+		gi.imageindex(victory_pcx->string);
 
 	/* Setup light animation tables. 'a' is total darkness, 'z' is doublebright. */
 
@@ -2255,7 +2257,12 @@ void G_CheckCoopVictory (void) /* FS: Coop: Check if victory.pcx is the current 
     int index, count, nextmode;
     char mapname[32];
     char nextserver[64];
-	if(!Q_stricmp("victory.pcx", level.mapname))
+	mapname[0] = 0;
+	if (strlen(victory_pcx->string)) {
+		Q_strncpyz(mapname, victory_pcx->string, sizeof mapname);
+		Q_strncatz(mapname, ".pcx", sizeof mapname);
+	}
+	if(!Q_stricmp("victory.pcx", level.mapname) || strlen(mapname) && !Q_stricmp(mapname, level.mapname))
 	{
         /* Phatman: Game mode switching algorithm */
         count = CoopGamemodeCount();

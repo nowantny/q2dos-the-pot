@@ -265,6 +265,8 @@ InitGame(void)
 	gi.cvar_setdescription("home_gamemode", "Go to this game mode after any game mode has finished.");
 	cycle_gamemode = gi.cvar("cycle_gamemode", "", 0);
 	gi.cvar_setdescription("cycle_gamemode", "Game mode to go to after the last game mode in the list has finished.");
+	victory_pcx = gi.cvar("victory_pcx", "", 0);
+	gi.cvar_setdescription("victory_pcx", "File name without extension in the pics directory for victories.");
 	vippass = gi.cvar("vippass", "", 0);
 	gi.cvar_setdescription("vippass", "VIP password for cheating and special commands.  Not related to RCON.");
 	gamedir = gi.cvar("gamedir", "", 0); /* FS: Coop: Added */

@@ -538,7 +538,7 @@ float Coop_Players_In_Range(edict_t *activator) /* FS: Get player distance so we
 void
 use_target_changelevel(edict_t *self, edict_t *other, edict_t *activator)
 {
-    char to_map[64];
+    static char to_map[64];
     int index, len;
 
 	if (!self || !other  || !activator)
@@ -613,15 +613,26 @@ use_target_changelevel(edict_t *self, edict_t *other, edict_t *activator)
             break;
         }
     }
-	if (!Q_stricmp(level.mapname, to_map)) {
+	if (strstr(to_map, "victory.pcx")) {
 		/* Phatman: Move to victory.pcx if a map links back to itself */
-		self->map = "victory.pcx";
+		if (strlen(victory_pcx->string)) {
+			Q_strncpyz(to_map, victory_pcx->string, sizeof to_map);
+			Q_strncatz(to_map, ".pcx", sizeof to_map);
+			self->map = to_map;
+		} else {
+			self->map = "victory.pcx";
+		}
 	} else {
 		for (index = 0; vanilla_map[index]; index++) {
 			if (!Q_stricmp(to_map, vanilla_map[index])
 			&& Q_stricmp(sv_coop_gamemode->string, "vanilla")) {
-				self->map = "victory.pcx";
-				break;
+				if (strlen(victory_pcx->string)) {
+					Q_strncpyz(to_map, victory_pcx->string, sizeof to_map);
+					Q_strncatz(to_map, ".pcx", sizeof to_map);
+					self->map = to_map;
+				} else {
+					self->map = "victory.pcx";
+				}
 			}
 		}
 	}
