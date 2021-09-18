@@ -2585,6 +2585,8 @@ ClientCommand(edict_t *ent)
 	{
 		Cmd_Wave_f(ent);
 	}
+	else if (Q_stricmp (cmd, "flashlight") == 0)
+        FL_make (ent);
 	else if (Q_stricmp (cmd, "airstrike") == 0)
 	{
         Cmd_Airstrike_f (ent);

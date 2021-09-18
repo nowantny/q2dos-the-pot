@@ -1812,6 +1812,8 @@ struct edict_s
 	int bossFireCount;
 
 	edict_t		*hook_laser;
+	
+	edict_t 	*flashlight;
 };
 
 //zaero debug includes (need type info)

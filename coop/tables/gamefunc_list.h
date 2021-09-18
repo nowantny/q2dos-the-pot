@@ -1854,6 +1854,7 @@
 {"Use_Breather", (byte *)Use_Breather},
 {"Use_QuadFire", (byte *)Use_QuadFire},
 {"Use_Quad", (byte *)Use_Quad},
+{"FL_think", (byte *)FL_think},
 {"Use_Vengeance", (byte *)Use_Vengeance},
 {"Use_Hunter", (byte *)Use_Hunter},
 {"Use_Defender", (byte *)Use_Defender},

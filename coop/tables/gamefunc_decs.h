@@ -1853,6 +1853,7 @@ extern void Use_Invulnerability ( edict_t * ent , gitem_t * item ) ;
 extern void Use_Envirosuit ( edict_t * ent , gitem_t * item ) ;
 extern void Use_Breather ( edict_t * ent , gitem_t * item ) ;
 extern void Use_QuadFire ( edict_t * ent , gitem_t * item ) ;
+extern void FL_think (edict_t *self);
 extern void Use_Quad ( edict_t * ent , gitem_t * item ) ;
 extern void Use_Vengeance ( edict_t * ent , gitem_t * item ) ;
 extern void Use_Hunter ( edict_t * ent , gitem_t * item ) ;
