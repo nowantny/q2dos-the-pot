@@ -514,9 +514,8 @@ void Think_Airstrike (edict_t *ent)
     static const int   ammo    = 50;     // Ammo cost for airstrike
     static const float fastest = 825.0;  // Fastest rocket's speed
     static const float slowest = 412.5;  // Slowest rocket's speed
-    static const float step    = rockets > 1 ? (fastest-slowest)/(rockets-1) : 0;
     int     count, index, offset;
-    float   speed;
+    float   speed, step;
     vec3_t  start, forward, end, targetdir, path;
     trace_t tr;
 
@@ -562,6 +561,7 @@ void Think_Airstrike (edict_t *ent)
     }
 
     // Fire the rockets along slightly randomized paths, fastest to slowest
+	step = rockets > 1 ? (fastest-slowest)/(rockets-1) : 0;
     speed = fastest;
     for (count = 0; count < rockets; count++)
     {
