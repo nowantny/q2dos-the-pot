@@ -614,13 +614,20 @@ use_target_changelevel(edict_t *self, edict_t *other, edict_t *activator)
         }
     }
 	if (strstr(to_map, "victory.pcx")) {
-		/* Phatman: Move to victory.pcx if a map links back to itself */
+		/* Phatman: Move to victory screen if a map links back to itself */
+		to_map[0] = 0;
+		if (strstr(self->map, "+")) {
+			len = strstr(self->map, "+") - self->map;
+			strncpy(to_map, self->map, len);
+			to_map[len+1] = 0;
+		}
 		if (strlen(victory_pcx->string)) {
-			Q_strncpyz(to_map, victory_pcx->string, sizeof to_map);
+			Q_strncatz(to_map, victory_pcx->string, sizeof to_map);
 			Q_strncatz(to_map, ".pcx", sizeof to_map);
 			self->map = to_map;
 		} else {
-			self->map = "victory.pcx";
+			Q_strncatz(to_map, "victory.pcx", sizeof to_map);
+			self->map = to_map;
 		}
 	} else {
 		for (index = 0; vanilla_map[index]; index++) {
