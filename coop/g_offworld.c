@@ -168,12 +168,15 @@ void offworld_teleporter_approach (edict_t *self, edict_t *other, cplane_t *plan
 	{
 		if (ent->classname && !Q_stricmp(ent->classname, "misc_offworld_teleporter"))
 		{
-			VectorSubtract(other->s.origin, ent->s.origin, diff);
-			distance = VectorLength(diff);
-			if (!choose || distance < closest)
+			if (infront(other, ent))
 			{
-				choose = ent;
-				closest = distance;
+				VectorSubtract(other->s.origin, ent->s.origin, diff);
+				distance = VectorLength(diff);
+				if (!choose || distance < closest)
+				{
+					choose = ent;
+					closest = distance;
+				}
 			}
 		}
 	}
