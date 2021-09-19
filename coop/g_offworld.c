@@ -122,9 +122,7 @@ void offworld_teleporter_touch (edict_t *self, edict_t *other, cplane_t *plane, 
 			gi.cvar_forceset("sv_coop_gamemode", gamemode_array[i].realgamemode);
 			gi.cvar_forceset("sv_coop_gamemode_vote", gamemode_array[i].gamemode);
 			gi.cvar_forceset ("nextserver", exit_message);
-			game.serverflags &= ~(SFL_CROSS_TRIGGER_MASK);
-			self->map = nextmap;
-			BeginIntermission(self);
+			gi.AddCommandString(exit_message);
 		} else {
 			gi.cprintf(other, PRINT_HIGH, "Game mode not found!\n");
 			gi.dprintf(DEVELOPER_MSG_GAME, "offworld_teleporter_touch: gamemode '%s' not found\n", external_server);
