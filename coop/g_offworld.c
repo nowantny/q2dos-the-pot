@@ -184,19 +184,19 @@ void offworld_teleporter_approach (edict_t *self, edict_t *other, cplane_t *plan
 		return;
 
     gi.centerprintf(other, choose->message);
-	//gi.sound (other, CHAN_AUTO, gi.soundindex ("misc/talk1.wav"), 1, ATTN_NORM, 0);
+	gi.sound (other, CHAN_AUTO, gi.soundindex ("misc/talk1.wav"), 1, ATTN_NORM, 0);
 
-	if (choose->wait > 0)
+	if (self->wait > 0)
 	{
-		choose->think = pad_wait;
-		choose->nextthink = level.time + choose->wait;
+		self->think = pad_wait;
+		self->nextthink = level.time + self->wait;
 	}
 	else
 	{	// we can't just remove (self) here, because this is a touch function
 		// called while looping through area links...
-		choose->touch = NULL;
-		choose->nextthink = level.time + FRAMETIME;
-		choose->think = G_FreeEdict;
+		self->touch = NULL;
+		self->nextthink = level.time + FRAMETIME;
+		self->think = G_FreeEdict;
 	}
 
 }
