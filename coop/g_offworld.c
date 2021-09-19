@@ -119,8 +119,8 @@ void offworld_teleporter_touch (edict_t *self, edict_t *other, cplane_t *plane, 
 		if (i < k) {
 			COM_StripExtension (gamemode_array[i].mapname, nextmap);
 			Com_sprintf (exit_message, sizeof exit_message, "map \"%s\"", nextmap);
-			gi.cvar_forceset ("sv_coop_gamemode", gamemode_array[i].gamemode);
-			gi.cvar_forceset ("sv_coop_gamemode_vote", gamemode_array[i].gamemode);
+			gi.cvar_forceset("sv_coop_gamemode", gamemode_array[i].realgamemode);
+			gi.cvar_forceset("sv_coop_gamemode_vote", gamemode_array[i].gamemode);
 			gi.cvar_forceset ("nextserver", exit_message);
 			game.serverflags &= ~(SFL_CROSS_TRIGGER_MASK);
 			self->map = nextmap;
@@ -184,7 +184,7 @@ void offworld_teleporter_approach (edict_t *self, edict_t *other, cplane_t *plan
 		return;
 
     gi.centerprintf(other, choose->message);
-	gi.sound (other, CHAN_AUTO, gi.soundindex ("misc/talk1.wav"), 1, ATTN_NORM, 0);
+	//gi.sound (other, CHAN_AUTO, gi.soundindex ("misc/talk1.wav"), 1, ATTN_NORM, 0);
 
 	if (choose->wait > 0)
 	{
