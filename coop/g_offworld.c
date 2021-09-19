@@ -151,27 +151,51 @@ void pad_wait (edict_t *ent)
 
 void offworld_teleporter_approach (edict_t *self, edict_t *other, cplane_t *plane, csurface_t *surf)
 {
+	vec_t	distance, closest;
+	vec3_t	diff;
+	edict_t	*ent, *choose;
+
 	if (!other->client)
 		return;		// not a player
 
 	if (self->nextthink)
 		return;		// already been triggered
 
-    gi.centerprintf(other, self->message);
+	/* Phatman: Revamped this algorithm to deal with many teleporters in close proximity */
+	ent = NULL;
+	choose = 0;
+	while ((ent = findradius(ent, other->s.origin, 180)) != NULL)
+	{
+		if (ent->classname && !Q_stricmp(ent->classname, "misc_offworld_teleporter"))
+		{
+			VectorSubtract(other->s.origin, ent->s.origin, diff);
+			distance = VectorLength(diff);
+			if (!choose || distance < closest)
+			{
+				choose = ent;
+				closest = distance;
+			}
+		}
+	}
+	if (!choose)
+		return;
+
+    gi.centerprintf(other, choose->message);
 	gi.sound (other, CHAN_AUTO, gi.soundindex ("misc/talk1.wav"), 1, ATTN_NORM, 0);
 
-	if (self->wait > 0)
+	if (choose->wait > 0)
 	{
-		self->think = pad_wait;
-		self->nextthink = level.time + self->wait;
+		choose->think = pad_wait;
+		choose->nextthink = level.time + choose->wait;
 	}
 	else
 	{	// we can't just remove (self) here, because this is a touch function
 		// called while looping through area links...
-		self->touch = NULL;
-		self->nextthink = level.time + FRAMETIME;
-		self->think = G_FreeEdict;
+		choose->touch = NULL;
+		choose->nextthink = level.time + FRAMETIME;
+		choose->think = G_FreeEdict;
 	}
+
 }
 
 /*QUAKED misc_offworld_teleporter (1 0 0) (-32 -32 -24) (32 32 -16)
@@ -227,12 +251,8 @@ void SP_misc_teleporter_offworld (edict_t *ent)
 	trig->classname = "trigger_multiple";
 
 	VectorCopy (ent->s.origin, trig->s.origin);
-	VectorSet (trig->mins, -75, -75, 8);	// boundaries for the touch planes
-	VectorSet (trig->maxs, 75, 75, 24);
-/*
-	VectorSet (trig->mins, -120, -120, 8);	// boundaries for the touch planes
-	VectorSet (trig->maxs, 120, 120, 24);
-*/
+	VectorSet (trig->mins, -180, -180, 8);	// boundaries for the touch planes
+	VectorSet (trig->maxs, 180, 180, 24); // Phatman: Was 180 was 120 originally
 	gi.linkentity (trig);
 
 	// create the touch zone on the pad

@@ -597,7 +597,7 @@ use_target_changelevel(edict_t *self, edict_t *other, edict_t *activator)
 		}
 	}
 
-	/* Phatman: Always move to victory.pcx at the end of any game mode */
+	/* Phatman: Always move to victory screen at the end of any game mode */
     Q_strncpyz(to_map, self->map, sizeof to_map);
     len = strlen(to_map);
     for (index = 0; index < len; index++) {
@@ -614,7 +614,7 @@ use_target_changelevel(edict_t *self, edict_t *other, edict_t *activator)
         }
     }
 	if (strstr(to_map, "victory.pcx")) {
-		/* Phatman: Move to victory screen if a map links back to itself */
+		/* Move to victory screen if a map links back to itself */
 		to_map[0] = 0;
 		if (strstr(self->map, "+")) {
 			len = strstr(self->map, "+") - self->map;
@@ -630,6 +630,7 @@ use_target_changelevel(edict_t *self, edict_t *other, edict_t *activator)
 			self->map = to_map;
 		}
 	} else {
+		/* Move to victory screen if a non-vanilla map links to a vanilla map */
 		for (index = 0; vanilla_map[index]; index++) {
 			if (!Q_stricmp(to_map, vanilla_map[index])
 			&& Q_stricmp(sv_coop_gamemode->string, "vanilla")) {
