@@ -1173,6 +1173,7 @@ player_die(edict_t *self, edict_t *inflictor, edict_t *attacker,
 		self->client->ps.pmove.pm_type = PM_DEAD;
 		ClientObituary(self, inflictor, attacker);
 		hook_reset(self->client->hook);
+		FL_turn_off(self);
 		TossClientWeapon(self);
 
 		if (deathmatch->intValue)
@@ -2191,6 +2192,7 @@ spectator_respawn(edict_t *ent)
 			gi.unicast(ent, true);
 			return;
 		}
+		FL_turn_off(ent);
 
 		/* FS: Coop: Spawn a backpack with our stuff */
 		/* Phatman: Coop: This allowed players to leave backpacks everywhere...
@@ -2947,6 +2949,7 @@ ClientDisconnect(edict_t *ent)
 		vote_disconnect_recalc(ent);
 	}
 
+	FL_turn_off(ent);
 	hook_reset(ent->client->hook);
 
 	gi.bprintf(PRINT_HIGH, "%s disconnected\n", ent->client->pers.netname);
@@ -3534,10 +3537,16 @@ FL_make
 void FL_make(edict_t *self)
 {
     vec3_t    start,forward,right,end;
-    if ( self->flashlight )
+	if (!self)
+		return;
+	if (self->client && self->client->resp.spectator)
+	{
+		gi.cprintf(self, PRINT_HIGH, "Spectators can't use this command.\n");
+		return;
+	}
+    if (self->flashlight)
     {
-        G_FreeEdict(self->flashlight);
-        self->flashlight = NULL;
+		FL_turn_off (self);
         return;
     }
     AngleVectors (self->client->v_angle, forward, right, NULL);
@@ -3555,4 +3564,17 @@ void FL_make(edict_t *self)
 
     self->flashlight->think = FL_think;
     self->flashlight->nextthink = level.time + 0.1;
+}
+
+/*
+===============
+FL_turn_off
+===============
+*/
+void FL_turn_off(edict_t *self)
+{
+	if (self->flashlight) {
+		G_FreeEdict(self->flashlight);
+		self->flashlight = NULL;
+	}
 }

@@ -1,6 +1,3 @@
-#ifndef HEADER_1CE299026E91108A
-#define HEADER_1CE299026E91108A
-
 {"Action_Push", (byte *)Action_Push},
 {"push_hit", (byte *)push_hit},
 {"Weapon_A2k", (byte *)Weapon_A2k},
@@ -2157,5 +2154,3 @@
 {"offworld_teleporter_approach", (byte *)offworld_teleporter_approach},
 {"offworld_teleporter_touch", (byte *)offworld_teleporter_touch},
 {0, 0}
-#endif // header guard
-

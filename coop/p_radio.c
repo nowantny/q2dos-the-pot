@@ -3,6 +3,13 @@
 
 void RadioToggle_f(edict_t *self)
 {
+	if (!self || !self->client)
+		return;
+	if (self->client->resp.spectator)
+	{
+		gi.cprintf(self, PRINT_HIGH, "Spectators can't use this command.\n");
+		return;
+	}
 	if (self->client->resp.radio_power)
 	{
 		self->client->resp.radio_power = 0;
@@ -34,7 +41,13 @@ void Radio_f(edict_t *self, char *channel, char *msg)
 	char	*info;
 
 
-
+	if (!self || !self->client)
+		return;
+	if (self->client->resp.spectator)
+	{
+		gi.cprintf(self, PRINT_HIGH, "Spectators can't use this command.\n");
+		return;
+	}
       // if the players radio is off, lets not bother doing anything
 	if (!self->client->resp.radio_power)
 		return;

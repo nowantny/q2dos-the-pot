@@ -2677,9 +2677,9 @@ ClientCommand(edict_t *ent)
     }
 	else if (Q_stricmp (cmd, "radio") == 0)  // Radio Toggle
 		RadioToggle_f(ent);
-	else if (Q_stricmp (cmd, "play_world") == 0 && !ent->client->resp.spectator)  // Radio to everybody
+	else if (Q_stricmp (cmd, "play_world") == 0)  // Radio to everybody
 		Radio_f(ent, "ALL", gi.argv(1));
-	else if (Q_stricmp (cmd, "play_voice") == 0 && !ent->client->resp.spectator)  // Talk to Everyone within a Earshot
+	else if (Q_stricmp (cmd, "play_voice") == 0)  // Talk to Everyone within a Earshot
 		Radio_f(ent, "ROOM", gi.argv(1));
 	else if (Q_stricmp (cmd, "scanner") == 0) /* Phatman: Scanner by Yaya */
 		Toggle_Scanner (ent);
