@@ -10,6 +10,7 @@
 
 #include "g_local.h"
 #include "g_team.h"
+#define NOTIFICATION_DISTANCE 180
 
 /*
 To use this module in Quake II:
@@ -149,32 +150,30 @@ void pad_wait (edict_t *ent)
 
 void offworld_teleporter_approach (edict_t *self, edict_t *other, cplane_t *plane, csurface_t *surf)
 {
-	vec_t	distance, closest;
-	vec3_t	diff;
-	edict_t	*ent, *choose;
+	vec_t			distance, closest, product, best;
+	vec3_t			forward, direction;
+	edict_t			*ent, *choose;
 
 	if (!other->client)
 		return;		// not a player
 
-	if (self->nextthink)
-		return;		// already been triggered
-
-	/* Phatman: Revamped this algorithm to deal with many teleporters in close proximity */
+	/* Phatman: Loosely based on player id angle algorithm from OpenTDM */
 	ent = NULL;
-	choose = 0;
-	while ((ent = findradius(ent, other->s.origin, 180)) != NULL)
+	choose = NULL;
+	best = 0.0f;
+	AngleVectors(other->client->v_angle, forward, NULL, NULL);
+	while ((ent = findradius(ent, other->s.origin, NOTIFICATION_DISTANCE)) != NULL)
 	{
 		if (ent->classname && !Q_stricmp(ent->classname, "misc_offworld_teleporter"))
 		{
-			if (infront(other, ent))
+			VectorSubtract(ent->s.origin, other->s.origin, direction);
+			distance = VectorLength(direction);
+			VectorNormalize(direction);
+			product = DotProduct(forward, direction);
+			if (product > best && visible(other, ent))
 			{
-				VectorSubtract(other->s.origin, ent->s.origin, diff);
-				distance = VectorLength(diff);
-				if (!choose || distance < closest)
-				{
-					choose = ent;
-					closest = distance;
-				}
+				choose = ent;
+				best = product;
 			}
 		}
 	}
@@ -182,19 +181,10 @@ void offworld_teleporter_approach (edict_t *self, edict_t *other, cplane_t *plan
 		return;
 
     gi.centerprintf(other, choose->message);
-	gi.sound (other, CHAN_AUTO, gi.soundindex ("misc/talk1.wav"), 1, ATTN_NORM, 0);
-
-	if (self->wait > 0)
+	if (other->client->offworld != choose)
 	{
-		self->think = pad_wait;
-		self->nextthink = level.time + self->wait;
-	}
-	else
-	{	// we can't just remove (self) here, because this is a touch function
-		// called while looping through area links...
-		self->touch = NULL;
-		self->nextthink = level.time + FRAMETIME;
-		self->think = G_FreeEdict;
+		gi.sound (other, CHAN_AUTO, gi.soundindex ("misc/talk1.wav"), 1, ATTN_NORM, 0);
+		other->client->offworld = choose;
 	}
 
 }
@@ -252,8 +242,8 @@ void SP_misc_teleporter_offworld (edict_t *ent)
 	trig->classname = "trigger_multiple";
 
 	VectorCopy (ent->s.origin, trig->s.origin);
-	VectorSet (trig->mins, -180, -180, 8);	// boundaries for the touch planes
-	VectorSet (trig->maxs, 180, 180, 24); // Phatman: Was 180 was 120 originally
+	VectorSet (trig->mins, -NOTIFICATION_DISTANCE, -NOTIFICATION_DISTANCE, 8);
+	VectorSet (trig->maxs, NOTIFICATION_DISTANCE, NOTIFICATION_DISTANCE, 24);
 	gi.linkentity (trig);
 
 	// create the touch zone on the pad

@@ -1586,8 +1586,10 @@ struct gclient_s
 	vec3_t         airstrike_entry;
 	float          airstrike_time;
 
-	int             hook_state;
+	int            hook_state;
     edict_t        *hook;
+
+	edict_t        *offworld; /* Phatman: Offworld transport */
 };
 
 struct edict_s
