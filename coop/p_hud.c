@@ -24,8 +24,8 @@ MapSummaryMessage(edict_t *ent)
 	}
 	/* send the layout */
 	Com_sprintf(string, sizeof(string),
-			"xv 125 yv 0 string2 \" THE-POT \" "
 			"xv 80 yv 0 picn the-pot "		/* logo */
+			"xv 125 yv 0 string2 \" THE-POT \" "
 			"xv 87 yv 150 string2 \" Kills   : %i/%i \" "
 			"xv 87 yv 158 string2 \" Goals   : %i/%i \" "
 			"xv 87 yv 166 string2 \" Secrets : %i/%i \" "
@@ -314,8 +314,8 @@ DeathmatchScoreboardMessage(edict_t *ent, edict_t *killer /* can be NULL */)
 		if (level.framenum - ent->client->resp.enterframe < 100)
 		{
 			Com_sprintf(string, sizeof(string),
-				"xv 115 yv 5 string2 \" Welcome To \" "
 				"xv 80 yv 0 picn the-pot "
+				"xv 115 yv 5 string2 \" Welcome To \" "
 				"xv 127 yv 140 string2 \" THE-POT \" "
 			);
 		}
