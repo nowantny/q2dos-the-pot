@@ -539,6 +539,7 @@ void
 use_target_changelevel(edict_t *self, edict_t *other, edict_t *activator)
 {
     static char to_map[64];
+	char *found;
     int index, len;
 
 	if (!self || !other  || !activator)
@@ -598,48 +599,54 @@ use_target_changelevel(edict_t *self, edict_t *other, edict_t *activator)
 	}
 
 	/* Phatman: Always move to victory screen at the end of any game mode */
-    Q_strncpyz(to_map, self->map, sizeof to_map);
-    len = strlen(to_map);
-    for (index = 0; index < len; index++) {
-        if (to_map[index] == '$') {
-            to_map[index] = '\0';
-            break;
-        }
-    }
-    len = strlen(to_map);
-    for (index = 0; index < len; index++) {
-        if (to_map[index] == '*') {
-            Q_strncpyz(to_map, to_map+index+1, len-index+1);
-            break;
-        }
-    }
-	if (strstr(to_map, "victory.pcx")) {
-		/* Move to victory screen if a map links back to itself */
-		to_map[0] = 0;
-		if (strstr(self->map, "+")) {
-			len = strstr(self->map, "+") - self->map;
-			strncpy(to_map, self->map, len);
-			to_map[len+1] = 0;
-		}
-		if (strlen(victory_pcx->string)) {
+	Q_strncpyz(to_map, self->map, sizeof to_map);
+	found = strstr(to_map, "victory.pcx");
+	if (found) 
+	{
+		if (strlen(victory_pcx->string))
+		{
+			/* Swap victory screens if an override has been specified */
+			found[0] = 0;
 			Q_strncatz(to_map, victory_pcx->string, sizeof to_map);
 			Q_strncatz(to_map, ".pcx", sizeof to_map);
 			self->map = to_map;
-		} else {
-			Q_strncatz(to_map, "victory.pcx", sizeof to_map);
+		}
+	}
+	else 
+	{
+		found = strstr(to_map, level.mapname);
+		if (found) 
+		{
+			/* Move to victory screen if a map links back to itself */
+			found[0] = 0;
+			if (strlen(victory_pcx->string))
+			{
+				Q_strncatz(to_map, victory_pcx->string, sizeof to_map);
+				Q_strncatz(to_map, ".pcx", sizeof to_map);
+			} 
+			else 
+				Q_strncatz(to_map, "victory.pcx", sizeof to_map);
 			self->map = to_map;
 		}
-	} else {
-		/* Move to victory screen if a non-vanilla map links to a vanilla map */
-		for (index = 0; vanilla_map[index]; index++) {
-			if (!Q_stricmp(to_map, vanilla_map[index])
-			&& Q_stricmp(sv_coop_gamemode->string, "vanilla")) {
-				if (strlen(victory_pcx->string)) {
-					Q_strncpyz(to_map, victory_pcx->string, sizeof to_map);
-					Q_strncatz(to_map, ".pcx", sizeof to_map);
+		else if (Q_stricmp(sv_coop_gamemode->string, "vanilla"))
+		{
+			/* Move to victory screen if a non-vanilla map links to a vanilla map */
+			for (index = 0; vanilla_map[index]; index++) 
+			{
+				found = strstr(to_map, vanilla_map[index]);
+				if (found && found[strlen(vanilla_map[index])] == 0)
+				{
+					found[0] = 0;
+					if (strlen(victory_pcx->string)) 
+					{
+						Q_strncatz(to_map, victory_pcx->string, sizeof to_map);
+						Q_strncatz(to_map, ".pcx", sizeof to_map);
+						self->map = to_map;
+					} 
+					else 
+						Q_strncatz(to_map, "victory.pcx", to_map);
 					self->map = to_map;
-				} else {
-					self->map = "victory.pcx";
+					break;
 				}
 			}
 		}
