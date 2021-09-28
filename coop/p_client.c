@@ -1,6 +1,7 @@
 #include "g_local.h"
 #include "p_hook.h"
 #include "m_player.h"
+#include "scanner.h"
 
 edict_t *pm_passent;
 
@@ -9,6 +10,7 @@ void SP_misc_teleporter_dest(edict_t *ent);
 void Touch_Item(edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *surf);
 void zCam_SetLocalCopy(struct edict_s *player, char *s);  /* FS: Zaero specific game dll changes */
 void stopCamera(edict_t *ent); /* FS: Zaero specific game dll changes */
+void FL_turn_off(edict_t *self);
 
 /*
  * The ugly as hell coop spawnpoint fixup function.

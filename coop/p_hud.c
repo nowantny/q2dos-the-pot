@@ -1,5 +1,6 @@
 #include "g_local.h"
 #include "intro.h"
+#include "scanner.h"
 
 /*
 ======================================================================
@@ -15,7 +16,7 @@ MapSummaryMessage(edict_t *ent)
 {
 	char		string[1024];
 	int			i, j, y, total;
-	gclient_t	*cl, *swap, *clients[MAX_CLIENTS];
+	gclient_t	*cl, *clients[MAX_CLIENTS];
 	edict_t		*cl_ent;
 
 	if (!ent)

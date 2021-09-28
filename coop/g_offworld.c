@@ -150,7 +150,7 @@ void pad_wait (edict_t *ent)
 
 void offworld_teleporter_approach (edict_t *self, edict_t *other, cplane_t *plane, csurface_t *surf)
 {
-	vec_t			distance, closest, product, best;
+	vec_t			product, best;
 	vec3_t			forward, direction;
 	edict_t			*ent, *choose;
 
@@ -167,7 +167,6 @@ void offworld_teleporter_approach (edict_t *self, edict_t *other, cplane_t *plan
 		if (ent->classname && !Q_stricmp(ent->classname, "misc_offworld_teleporter"))
 		{
 			VectorSubtract(ent->s.origin, other->s.origin, direction);
-			distance = VectorLength(direction);
 			VectorNormalize(direction);
 			product = DotProduct(forward, direction);
 			if (product > best && visible(other, ent))
@@ -210,7 +209,7 @@ void SP_misc_teleporter_offworld (edict_t *ent)
 
 	if (!ent->target || !ent->message)
 	{
-		gi.dprintf ("Teleporter is missing target or message %s %s %s.\n",
+		gi.dprintf (DEVELOPER_MSG_GAME, "Teleporter is missing target or message %s %s %s.\n",
 			ent->classname, ent->target, ent->message);
 		G_FreeEdict (ent);
 		return;

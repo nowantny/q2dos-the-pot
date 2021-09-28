@@ -2266,6 +2266,7 @@ void G_CheckCoopVictory (void) /* FS: Coop: Check if victory.pcx is the current 
 	{
         /* Phatman: Game mode switching algorithm */
         count = CoopGamemodeCount();
+		nextmode = 0;
 		/* Go to home_gamemode after any game mode unless it is blank or was not found */
 		for (index = 0; index < count; index++) {
 			if (!Q_stricmp(home_gamemode->string, gamemode_array[index].gamemode)) {

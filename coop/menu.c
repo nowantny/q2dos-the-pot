@@ -200,7 +200,7 @@ PMenu_UpdateEntry(pmenu_t *entry, const char *text, int align,
 		free(entry->text);
 	}
 
-	entry->text = strdup(text);
+	entry->text = text ? strdup(text) : text;
 	entry->align = align;
 	entry->SelectFunc = SelectFunc;
 }

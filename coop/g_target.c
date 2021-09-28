@@ -540,7 +540,7 @@ use_target_changelevel(edict_t *self, edict_t *other, edict_t *activator)
 {
     static char to_map[64];
 	char *found;
-    int index, len;
+    int index;
 
 	if (!self || !other  || !activator)
 	{
@@ -615,7 +615,7 @@ use_target_changelevel(edict_t *self, edict_t *other, edict_t *activator)
 	else 
 	{
 		found = strstr(to_map, level.mapname);
-		if (found) 
+		if (found == to_map) 
 		{
 			/* Move to victory screen if a map links back to itself */
 			found[0] = 0;
@@ -644,7 +644,7 @@ use_target_changelevel(edict_t *self, edict_t *other, edict_t *activator)
 						self->map = to_map;
 					} 
 					else 
-						Q_strncatz(to_map, "victory.pcx", to_map);
+						Q_strncatz(to_map, "victory.pcx", sizeof to_map);
 					self->map = to_map;
 					break;
 				}
