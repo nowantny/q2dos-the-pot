@@ -652,7 +652,7 @@ use_target_changelevel(edict_t *self, edict_t *other, edict_t *activator)
 			last_plus[1] = 0;
 		if (strlen(victory_pcx->string)) 
 		{
-			Q_strncatz(to_map[0], victory_pcx->string, sizeof to_map);
+			Q_strncatz(to_map, victory_pcx->string, sizeof to_map);
 			Q_strncatz(to_map, ".pcx", sizeof to_map);
 			self->map = to_map;
 		} 
