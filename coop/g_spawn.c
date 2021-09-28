@@ -2286,7 +2286,7 @@ void G_CheckCoopVictory (void) /* FS: Coop: Check if victory.pcx is the current 
 							if (!Q_stricmp(cycle_gamemode->string, gamemode_array[nextmode].gamemode))
 								break;
 						if (nextmode >= count)
-							nextmode = 0; /* Fallback to vanilla if we don't find cycle_gamemode */
+							nextmode = 0; /* Fallback to first game mode if we don't find cycle_gamemode */
 					}
 					break;
 				}

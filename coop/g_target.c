@@ -63,8 +63,7 @@ const char* vanilla_map[] = {
     "city3",
     /* Unit 10 */
     "boss1",
-    "boss2",
-    0 /* Must be last */
+    "boss2"
 };
 
 /*
@@ -539,8 +538,10 @@ void
 use_target_changelevel(edict_t *self, edict_t *other, edict_t *activator)
 {
     static char to_map[64];
-	char *found;
-    int index;
+	char map_name[64];
+	char *last_plus;
+    int index, length;
+	qboolean to_victory;
 
 	if (!self || !other  || !activator)
 	{
@@ -600,56 +601,64 @@ use_target_changelevel(edict_t *self, edict_t *other, edict_t *activator)
 
 	/* Phatman: Always move to victory screen at the end of any game mode */
 	Q_strncpyz(to_map, self->map, sizeof to_map);
-	found = strstr(to_map, "victory.pcx");
-	if (found) 
+	length = strlen(to_map);
+	last_plus = to_map;
+	for (index = 0; index < length; index++)
+		if (to_map[index] == '+')
+			last_plus = to_map+index;
+	if (last_plus != to_map)
+		strncpy(map_name, last_plus+1, strlen(last_plus));
+	else
+		strncpy(map_name, to_map, length+1);
+	length = strlen(map_name);
+	for (index = 0; index < length; index++)
 	{
-		if (strlen(victory_pcx->string))
+		if (map_name[index] == '$')
 		{
-			/* Swap victory screens if an override has been specified */
-			found[0] = 0;
-			Q_strncatz(to_map, victory_pcx->string, sizeof to_map);
-			Q_strncatz(to_map, ".pcx", sizeof to_map);
-			self->map = to_map;
+			map_name[index] = 0;
+			break;
 		}
 	}
-	else 
+	to_victory = false;
+	if (!vote_mapcheck(activator, map_name[0] == '*' ? map_name+1 : map_name))
 	{
-		found = strstr(to_map, level.mapname);
-		if (found == to_map) 
+		/* Exit refers to map that does not exist, move to victory instead */
+		to_victory = true;
+	}
+	else if (!Q_stricmp(map_name[0] == '*' ? map_name+1 : map_name, "victory.pcx") || 
+		!Q_strcasecmp(map_name[0] == '*' ? map_name+1 : map_name, level.mapname))
+	{
+		/* Exit refers to victory.pcx specifically, we might override it */
+		to_victory = true;
+	}
+	else if (Q_stricmp(sv_coop_gamemode->string, "vanilla"))
+	{
+		for (index = 0; index < (sizeof vanilla_map) / sizeof(char*); index++) 
 		{
-			/* Move to victory screen if a map links back to itself */
-			found[0] = 0;
-			if (strlen(victory_pcx->string))
+			if (!Q_stricmp(map_name[0] == '*' ? map_name+1 : map_name, vanilla_map[index]))
 			{
-				Q_strncatz(to_map, victory_pcx->string, sizeof to_map);
-				Q_strncatz(to_map, ".pcx", sizeof to_map);
-			} 
-			else 
-				Q_strncatz(to_map, "victory.pcx", sizeof to_map);
-			self->map = to_map;
-		}
-		else if (Q_stricmp(sv_coop_gamemode->string, "vanilla"))
-		{
-			/* Move to victory screen if a non-vanilla map links to a vanilla map */
-			for (index = 0; vanilla_map[index]; index++) 
-			{
-				found = strstr(to_map, vanilla_map[index]);
-				if (found && found[strlen(vanilla_map[index])] == 0)
-				{
-					found[0] = 0;
-					if (strlen(victory_pcx->string)) 
-					{
-						Q_strncatz(to_map, victory_pcx->string, sizeof to_map);
-						Q_strncatz(to_map, ".pcx", sizeof to_map);
-						self->map = to_map;
-					} 
-					else 
-						Q_strncatz(to_map, "victory.pcx", sizeof to_map);
-					self->map = to_map;
-					break;
-				}
+				/* Exit refers to vanilla map, move to victory instead */
+				to_victory = true;
+				break;
 			}
 		}
+	}
+	if (to_victory)
+	{
+		/* Decision was made to move to victory, check for victory.pcx override */
+		if (last_plus == to_map)
+			to_map[0] = 0;
+		else
+			last_plus[1] = 0;
+		if (strlen(victory_pcx->string)) 
+		{
+			Q_strncatz(to_map[0], victory_pcx->string, sizeof to_map);
+			Q_strncatz(to_map, ".pcx", sizeof to_map);
+			self->map = to_map;
+		} 
+		else 
+			Q_strncatz(to_map, "victory.pcx", sizeof to_map);
+		self->map = to_map;
 	}
 
 	/* if going to a new unit, clear cross triggers */
