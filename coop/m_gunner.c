@@ -18,6 +18,7 @@ static int sound_search;
 static int sound_sight;
 
 qboolean visible(edict_t *self, edict_t *other);
+void GunnerRunGrenade(edict_t *self);
 void GunnerGrenade(edict_t *self);
 void GunnerFire(edict_t *self);
 void gunner_fire_chain(edict_t *self);
@@ -300,7 +301,7 @@ gunner_run(edict_t *self)
 mframe_t gunner_frames_runandshoot[] = {
 	{ai_run, 32, NULL},
 	{ai_run, 15, NULL},
-	{ai_run, 10, NULL},
+	{ai_run, 10, GunnerRunGrenade}, // Phatman: For Stross
 	{ai_run, 18, NULL},
 	{ai_run, 8, NULL},
 	{ai_run, 20, NULL}
@@ -317,12 +318,42 @@ mmove_t gunner_move_runandshoot =
 void
 gunner_runandshoot(edict_t *self)
 {
-	if (!self)
+	vec3_t difference;
+	trace_t trace;
+
+	if (!self || !self->enemy)
+		return;
+
+	// Phatman: For Stross
+	VectorSubtract(self->s.origin, self->enemy->s.origin, difference);
+	if (VectorLength(difference) > 500.0f)
 	{
+		self->monsterinfo.currentmove = &gunner_move_run;
 		return;
 	}
+	trace = gi.trace(self->s.origin, NULL, NULL, self->enemy->s.origin, self, MASK_PLAYERSOLID);
+	if (trace.ent && trace.ent == self->enemy)
+		self->monsterinfo.currentmove = &gunner_move_runandshoot;
+	else
+		self->monsterinfo.currentmove = &gunner_move_run;
+	
+}
 
-	self->monsterinfo.currentmove = &gunner_move_runandshoot;
+void GunnerRunGrenade(edict_t *self)
+{
+	vec3_t difference;
+	trace_t trace;
+
+	if (!self || !self->enemy)
+		return;
+
+	// Phatman: For Stross
+	VectorSubtract(self->s.origin, self->enemy->s.origin, difference);
+	if (VectorLength(difference) > 500.0f)
+		return;
+	trace = gi.trace(self->s.origin, NULL, NULL, self->enemy->s.origin, self, MASK_PLAYERSOLID);
+	if (trace.ent && trace.ent == self->enemy)
+		GunnerGrenade(self);
 }
 
 mframe_t gunner_frames_pain3[] = {
@@ -338,7 +369,7 @@ mmove_t gunner_move_pain3 =
 	FRAME_pain301,
 	FRAME_pain305,
 	gunner_frames_pain3,
-	gunner_run
+	gunner_runandshoot // Phatman: For Stross
 };
 
 mframe_t gunner_frames_pain2[] = {
@@ -357,7 +388,7 @@ mmove_t gunner_move_pain2 =
 	FRAME_pain201,
 	FRAME_pain208,
 	gunner_frames_pain2,
-	gunner_run
+	gunner_runandshoot // Phatman: For Stross
 };
 
 mframe_t gunner_frames_pain1[] = {
@@ -386,7 +417,7 @@ mmove_t gunner_move_pain1 =
 	FRAME_pain101,
 	FRAME_pain118,
 	gunner_frames_pain1,
-	gunner_run
+	gunner_runandshoot // Phatman: For Stross
 };
 
 void
@@ -647,7 +678,7 @@ mmove_t gunner_move_duck_rogue =
 	FRAME_duck01,
 	FRAME_duck08,
 	gunner_frames_duck_rogue,
-	gunner_run
+	gunner_runandshoot // Phatman: For Stross
 };
 
 mframe_t gunner_frames_duck[] = {
@@ -666,7 +697,7 @@ mmove_t gunner_move_duck =
 	FRAME_duck01,
 	FRAME_duck08,
 	gunner_frames_duck,
-	gunner_run
+	gunner_runandshoot // Phatman: For Stross
 };
 
 void
@@ -1005,7 +1036,7 @@ mmove_t gunner_move_endfire_chain =
 	FRAME_attak224,
 	FRAME_attak230,
 	gunner_frames_endfire_chain,
-	gunner_run
+	gunner_runandshoot // Phatman: For Stross
 };
 
 void
@@ -1055,7 +1086,7 @@ mmove_t gunner_move_attack_grenade =
 	FRAME_attak101,
 	FRAME_attak121,
 	gunner_frames_attack_grenade,
-	gunner_run
+	gunner_runandshoot // Phatman: For Stross
 };
 
 void
@@ -1265,7 +1296,7 @@ mmove_t gunner_move_jump = { /* FS: Coop: Rogue specific */
 	FRAME_jump01,
    	FRAME_jump10,
    	gunner_frames_jump,
-   	gunner_run
+	gunner_runandshoot // Phatman: For Stross
 };
 
 mframe_t gunner_frames_jump2[] = { /* FS: Coop: Rogue specific */
@@ -1285,7 +1316,7 @@ mmove_t gunner_move_jump2 = { /* FS: Coop: Rogue specific */
 	FRAME_jump01,
    	FRAME_jump10,
    	gunner_frames_jump2,
-   	gunner_run
+	gunner_runandshoot // Phatman: For Stross
 };
 
 void
@@ -1471,7 +1502,7 @@ SP_monster_gunner(edict_t *self)
 
 	self->monsterinfo.stand = gunner_stand;
 	self->monsterinfo.walk = gunner_walk;
-	self->monsterinfo.run = gunner_run;
+	self->monsterinfo.run = gunner_runandshoot; // Phatman: For Stross
 	if (game.gametype == rogue_coop) /* FS: Coop: Rogue specific */
 	{
 		self->monsterinfo.dodge = M_MonsterDodge;
