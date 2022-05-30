@@ -891,9 +891,6 @@ makron_die(edict_t *self, edict_t *inflictor /* update */, edict_t *attacker /* 
 	self->takedamage = DAMAGE_YES;
 
 	tempent = G_Spawn();
-	n = tempent->s.number;
-	memcpy(tempent, self, sizeof(edict_t));
-	tempent->s.number = n;
 	VectorCopy(self->s.origin, tempent->s.origin);
 	VectorCopy(self->s.angles, tempent->s.angles);
 	tempent->s.origin[1] -= 84;
